@@ -1,5 +1,9 @@
 package com.example.simon;
 
+import android.app.Dialog;
+import android.content.Intent;
+import android.support.annotation.NonNull;
+import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -8,7 +12,7 @@ import android.text.method.LinkMovementMethod;
 import android.view.View;
 import android.widget.TextView;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements SingleChoiceDialog.SingleChoiceListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -16,10 +20,30 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         findViewById(R.id.about_button).setOnClickListener(new AboutListener());
+        findViewById(R.id.play_button).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DialogFragment singleChoiceDialog = new SingleChoiceDialog();
+                singleChoiceDialog.setCancelable(false);
+                singleChoiceDialog.show(getSupportFragmentManager(), "Single Choice Dialog");
+            }
+        });
 
 
     }
 
+    @Override
+    public void onPostiveButtonClicked(String[] list, int position) {
+        Intent intent = new Intent(getApplicationContext(), Game1Activity.class);
+        startActivity(intent);
+    }
+
+    @Override
+    public void onNegativeButtonClicked() {
+
+    }
+
+    // adds functionality to the about button
     class AboutListener implements View.OnClickListener {
         @Override
         public void onClick(View v) {
@@ -45,4 +69,5 @@ public class MainActivity extends AppCompatActivity {
             tv.setMovementMethod(LinkMovementMethod.getInstance());
         }
     }
+
 }
