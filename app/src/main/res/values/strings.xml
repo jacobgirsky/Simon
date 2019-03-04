@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Simon</string>
     <string-array name="choice_items">
-        <item>Game 1</item>
+        <item>Simon Original</item>
         <item>Game 2</item>
         <item>Game 3</item>
         <item>Game 4</item>
