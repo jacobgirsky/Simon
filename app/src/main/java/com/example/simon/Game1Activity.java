@@ -25,8 +25,8 @@ public class Game1Activity extends AppCompatActivity {
 
     ImageButton greenButton, redButton, yellowButton, blueButton;
     int x;
-    final int MAX_LENGTH = 500;
-    int moves[] = new int[MAX_LENGTH];
+    final int CAPACITY = 500;
+    int moves[] = new int[CAPACITY];
     int currentScore = 0;
     int highScore = 0;
     public int numItemsInArray = 0, k = 0, numberOfClicksEachLevel = 0, loseSound, hardness;
@@ -79,25 +79,16 @@ public class Game1Activity extends AppCompatActivity {
                     soundPool.play(loseSound, 1, 1, 1, 0, 1f);
 
                     AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(Game1Activity.this);
-                    alertDialogBuilder.setMessage("GAME OVER, you reached level: " + (numItemsInArray - 1) + ", Do you want to play again?");
-                    alertDialogBuilder.setPositiveButton("Yes",
+                    alertDialogBuilder.setMessage("GAME OVER, your score was " + currentScore);
+                    alertDialogBuilder.setPositiveButton("Ok",
                             new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface arg0, int arg1) {
-                                    //Start over
-                                    reset();
-                                    playGame();
+                                    finish();
+                                    Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                                    startActivity(intent);
                                 }
                             });
-
-                    alertDialogBuilder.setNegativeButton("No", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            finish(); // maybe not!!
-                            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                            startActivity(intent);
-                        }
-                    });
 
                     AlertDialog alertDialog = alertDialogBuilder.create();
                     alertDialog.show();
@@ -199,7 +190,7 @@ public class Game1Activity extends AppCompatActivity {
     }
 
     private void addToArray() {  // add random number to the first free position in the array
-        for (int i = 0; i < MAX_LENGTH; i++) {
+        for (int i = 0; i < CAPACITY; i++) {
             if (moves[i] == 0) {
                 moves[i] = random();
                 break;
@@ -215,7 +206,7 @@ public class Game1Activity extends AppCompatActivity {
     }
 
     private void reset() {//reset the game to initial state
-        for (int i = 0; i < MAX_LENGTH; i++) {
+        for (int i = 0; i < CAPACITY; i++) {
             moves[i] = 0;
         }
         numberOfClicksEachLevel = 0;
