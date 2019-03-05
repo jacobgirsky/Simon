@@ -28,9 +28,8 @@ public class Game1Activity extends AppCompatActivity {
     int x;
     final int CAPACITY = 500;
     int moves[] = new int[CAPACITY];
-    int currentScore = 0;
-    int highScore = 0;
-    public int numItemsInArray = 0, numberOfClicksEachLevel = 0, loseSound;
+    int currentScore = 0, highScore;
+    int numItemsInArray = 0, numberOfClicksEachLevel = 0, loseSound;
     public SoundPool soundPool = new SoundPool(10, AudioManager.STREAM_MUSIC, 0);
     Random rand = new Random();
     final Handler handler = new Handler();
@@ -194,7 +193,7 @@ public class Game1Activity extends AppCompatActivity {
         };
 
         handler.postDelayed(runnable, (1500) * click_index);
-        Log.i("CLICK METHOD", "IDK");
+
     }
 
 
@@ -243,3 +242,5 @@ public class Game1Activity extends AppCompatActivity {
         outState.putInt("highScore", highScore);
     }
 }
+
+

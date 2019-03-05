@@ -34,8 +34,13 @@ public class MainActivity extends AppCompatActivity implements SingleChoiceDialo
 
     @Override
     public void onPostiveButtonClicked(String[] list, int position) {
-        Intent intent = new Intent(getApplicationContext(), Game1Activity.class);
-        startActivity(intent);
+        if (position == 0) {
+            Intent intent = new Intent(getApplicationContext(), Game1Activity.class);
+            startActivity(intent);
+        } else if (position == 1) {
+            Intent intent = new Intent(getApplicationContext(), Game2Activity.class);
+            startActivity(intent);
+        }
     }
 
     @Override
