@@ -11,6 +11,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Html;
 import android.text.method.LinkMovementMethod;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.AlphaAnimation;
@@ -29,7 +30,7 @@ public class Game1Activity extends AppCompatActivity {
     int moves[] = new int[CAPACITY];
     int currentScore = 0;
     int highScore = 0;
-    public int numItemsInArray = 0, k = 0, numberOfClicksEachLevel = 0, loseSound, hardness;
+    public int numItemsInArray = 0, numberOfClicksEachLevel = 0, loseSound;
     public SoundPool soundPool = new SoundPool(10, AudioManager.STREAM_MUSIC, 0);
     Random rand = new Random();
     final Handler handler = new Handler();
@@ -38,6 +39,12 @@ public class Game1Activity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game1);
+
+        if (savedInstanceState == null) {
+            highScore = 0;
+        } else {
+            highScore = savedInstanceState.getInt("highScore", 0);
+        }
 
         loseSound = soundPool.load(this, R.raw.lose, 1);
 
@@ -53,6 +60,7 @@ public class Game1Activity extends AppCompatActivity {
         yellowButton.setOnTouchListener(clicked);
         blueButton.setOnTouchListener(clicked);
 
+
         playGame();
 
     }
@@ -61,6 +69,7 @@ public class Game1Activity extends AppCompatActivity {
         @Override
         public boolean onTouch(View v, MotionEvent event) {
             if (event.getAction() == MotionEvent.ACTION_UP) {
+
                 switch (v.getId()) {
                     case R.id.green_im:
                         x = 1;
@@ -69,13 +78,13 @@ public class Game1Activity extends AppCompatActivity {
                         x = 2;
                         break;
                     case R.id.yellow_ib:
-                        x = 4;
-                        break;
-                    case R.id.blue_ib:
                         x = 3;
                         break;
+                    case R.id.blue_ib:
+                        x = 4;
+                        break;
                 }
-                if (moves[numberOfClicksEachLevel] != x) { // on wrong click
+                if (moves[numberOfClicksEachLevel] != x) { // If the user gets it wrong
                     soundPool.play(loseSound, 1, 1, 1, 0, 1f);
 
                     AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(Game1Activity.this);
@@ -95,15 +104,14 @@ public class Game1Activity extends AppCompatActivity {
 
                     return true;
                 }
-                //on success
-                playSound(v.getId());
+                //if the user gets its right
+                makeSound(v.getId());
                 lightUp(v);
                 numberOfClicksEachLevel++;
-                TextView tv = findViewById(R.id.current_score_tv);
+                final TextView tv = findViewById(R.id.current_score_tv);
                 TextView textView = findViewById(R.id.high_score_tv);
 
-                if (numItemsInArray == numberOfClicksEachLevel) { //if 4 boxes shown, then activate  function
-                    //playGame only after 4 clicks have been made by the user
+                if (numItemsInArray == numberOfClicksEachLevel) {
 
                     currentScore++;
                     tv.setText("Current score: " + currentScore);
@@ -119,30 +127,28 @@ public class Game1Activity extends AppCompatActivity {
                             playGame();
                         }
                     };
-                    handler.postDelayed(r, 2000 - 500 * hardness);
+                    handler.postDelayed(r, 1500);
                 }
             }
             return true;
         }
     };
 
-    private void playSound(int id) {
-        //function that play sound according to sound ID
+    private void makeSound(int soundID) {
         int audioRes = 0;
-        switch (id) {
-            case R.id.green_im:
-                audioRes = R.raw.greenbutton;
-                break;
-            case R.id.red_ib:
-                audioRes = R.raw.redbutton;
-                break;
-            case R.id.yellow_ib:
-                audioRes = R.raw.yellowbutton;
-                break;
-            case R.id.blue_ib:
-                audioRes = R.raw.bluebutton;
-                break;
+        if (soundID == R.id.green_im) {
+            audioRes = R.raw.greenbutton;
         }
+        else if (soundID == R.id.red_ib) {
+            audioRes = R.raw.redbutton;
+        }
+        else if (soundID == R.id.yellow_ib) {
+            audioRes = R.raw.yellowbutton;
+        }
+        else if (soundID == R.id.blue_ib) {
+            audioRes = R.raw.bluebutton;
+        }
+
         MediaPlayer mediaPlayer = MediaPlayer.create(this, audioRes);
         mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
             @Override
@@ -156,32 +162,39 @@ public class Game1Activity extends AppCompatActivity {
     public void playGame() {
         addToArray();
         numItemsInArray++;
-        for (k = 0; k < numItemsInArray; k++) {
-            click(k);
+        for (int i = 0; i < numItemsInArray; i++) {
+            click(i);
         }
     }
 
+    private void lightUp(View v) {
+        Animation mAnimation = new AlphaAnimation(1, 0);
+        mAnimation.setDuration(300);
+        mAnimation.setInterpolator(new LinearInterpolator());
+        v.startAnimation(mAnimation);
+    }
+
     public void click(final int click_index) {
-        //Function that clicks one place randomally on the view
         final Runnable runnable = new Runnable() {
             public void run() {
                 if (moves[click_index] == 1) {
-                    playSound(R.id.green_im);
+                    makeSound(R.id.green_im);
                     lightUp(greenButton);
                 } else if (moves[click_index] == 2) {
-                    playSound(R.id.red_ib);
+                    makeSound(R.id.red_ib);
                     lightUp(redButton);
                 } else if (moves[click_index] == 3) {
-                    playSound(R.id.yellow_ib);
+                    makeSound(R.id.yellow_ib);
                     lightUp(yellowButton);
                 } else {
-                    playSound(R.id.blue_ib);
+                    makeSound(R.id.blue_ib);
                     lightUp(blueButton);
                 }
             }
         };
 
-        handler.postDelayed(runnable, (2000 - 500 * hardness) * click_index);
+        handler.postDelayed(runnable, (1500) * click_index);
+        Log.i("CLICK METHOD", "IDK");
     }
 
 
@@ -196,22 +209,6 @@ public class Game1Activity extends AppCompatActivity {
                 break;
             }
         }
-    }
-
-    private void lightUp(View v) {
-        Animation mAnimation = new AlphaAnimation(1, 0);
-        mAnimation.setDuration(300);
-        mAnimation.setInterpolator(new LinearInterpolator());
-        v.startAnimation(mAnimation);
-    }
-
-    private void reset() {//reset the game to initial state
-        for (int i = 0; i < CAPACITY; i++) {
-            moves[i] = 0;
-        }
-        numberOfClicksEachLevel = 0;
-        numItemsInArray = 0;
-        currentScore = 0;
     }
 
     class AboutListener implements View.OnClickListener {
@@ -239,4 +236,10 @@ public class Game1Activity extends AppCompatActivity {
         }
     }
 
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        outState.putInt("highScore", highScore);
+    }
 }
