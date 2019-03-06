@@ -6,6 +6,7 @@ import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.media.SoundPool;
 import android.os.Handler;
+import android.support.annotation.IntRange;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -20,6 +21,9 @@ import android.view.animation.LinearInterpolator;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 import java.util.Random;
 
 public class Game1Activity extends AppCompatActivity {
@@ -33,6 +37,7 @@ public class Game1Activity extends AppCompatActivity {
     public SoundPool soundPool = new SoundPool(10, AudioManager.STREAM_MUSIC, 0);
     Random rand = new Random();
     final Handler handler = new Handler();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,6 +63,7 @@ public class Game1Activity extends AppCompatActivity {
         redButton.setOnTouchListener(clicked);
         yellowButton.setOnTouchListener(clicked);
         blueButton.setOnTouchListener(clicked);
+
 
 
         playGame();
@@ -121,18 +127,19 @@ public class Game1Activity extends AppCompatActivity {
                         textView.setText("High score: " + highScore);
 
                     }
-                    final Runnable r = new Runnable() {
+                    final Runnable runnable = new Runnable() {
                         public void run() {
                             playGame();
                         }
                     };
-                    handler.postDelayed(r, 1500);
+                    handler.postDelayed(runnable, 1500);
                 }
             }
             return true;
         }
     };
 
+    // adds the sounds to the correct buttons that are being pressed
     private void makeSound(int soundID) {
         int audioRes = 0;
         if (soundID == R.id.green_im) {
@@ -166,6 +173,7 @@ public class Game1Activity extends AppCompatActivity {
         }
     }
 
+    // makes the buttons light up
     private void lightUp(View v) {
         Animation mAnimation = new AlphaAnimation(1, 0);
         mAnimation.setDuration(300);
@@ -198,7 +206,7 @@ public class Game1Activity extends AppCompatActivity {
 
 
     private int random() {
-        return rand.nextInt(4) + 1; // generate random number between 1 and 4
+        return rand.nextInt(4) + 1; // generate a random number between 1 and 4
     }
 
     private void addToArray() {  // add random number to the first free position in the array
