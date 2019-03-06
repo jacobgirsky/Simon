@@ -169,7 +169,7 @@ public class Game1Activity extends AppCompatActivity {
         addToArray();
         numItemsInArray++;
         for (int i = 0; i < numItemsInArray; i++) {
-            click(i);
+            simonClick(i);
         }
     }
 
@@ -181,7 +181,7 @@ public class Game1Activity extends AppCompatActivity {
         v.startAnimation(mAnimation);
     }
 
-    public void click(final int click_index) {
+    public void simonClick(final int click_index) {
         final Runnable runnable = new Runnable() {
             public void run() {
                 if (moves[click_index] == 1) {
