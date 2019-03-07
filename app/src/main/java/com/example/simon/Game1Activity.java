@@ -33,7 +33,6 @@ public class Game1Activity extends AppCompatActivity {
     int x;
     final int CAPACITY = 500;
     int moves[] = new int[CAPACITY];
-    Vector<Integer> simonPattern = new Vector<>();
     int currentScore = 0, highScore;
     int numItemsInArray = 0, numberOfClicksEachLevel = 0, loseSound;
     public SoundPool soundPool = new SoundPool(10, AudioManager.STREAM_MUSIC, 0);

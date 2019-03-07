@@ -23,6 +23,7 @@ import android.widget.TextView;
 
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Enumeration;
 import java.util.List;
 import java.util.Random;
 import java.util.Vector;
@@ -34,6 +35,8 @@ public class Game3Activity extends AppCompatActivity {
     final int CAPACITY = 500;
     int moves[] = new int[CAPACITY];
     Vector<Integer> simonPattern = new Vector<>();
+   // Object userPattern;
+    Vector<Integer> userPattern = new Vector<>();
     int currentScore = 0, highScore;
     int numItemsInArray = 0, numberOfClicksEachLevel = 0, loseSound;
     public SoundPool soundPool = new SoundPool(10, AudioManager.STREAM_MUSIC, 0);
@@ -92,7 +95,8 @@ public class Game3Activity extends AppCompatActivity {
                         break;
                 }
 
-                if (moves[numberOfClicksEachLevel] != x) { // If the user gets it wrong
+              //  if (moves[numberOfClicksEachLevel] != x) { // If the user gets it wrong
+                  if (userPattern.get(numberOfClicksEachLevel) != x ) {
                     soundPool.play(loseSound, 1, 1, 1, 0, 1f);
 
                     AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(Game3Activity.this);
@@ -172,15 +176,36 @@ public class Game3Activity extends AppCompatActivity {
     public void playGame() {
         addToArray();
         numItemsInArray++;
+
         //moves = reverse(moves, moves.length);
         for (int i = 0; i < numItemsInArray; i++) {
             simonClick(i);
         }
+        //Vector<Integer> userPattern = new Vector<>(size);
+        //Collections.copy(userPattern, simonPattern);
+        //userPattern = (Vector)simonPattern.clone();
+        Enumeration enu = simonPattern.elements();
+       // int k=0;
+        for(int i = 0; i < simonPattern.size(); i++){
+            //k = simonPattern.get(i);
+            userPattern.add(simonPattern.get(i));
+        }
+        reversePattern();
+    }
+    private void addToArray() {  // add random number to the first free position in the array
+        for (int i = 0; i < CAPACITY; i++) {
+            //if (moves[i] == 0) {
+               //if (simonPattern.get(i) == 0) {
+                simonPattern.add(random());
+                //moves[i] = random();
+                break;
+         // }
 
+        }
     }
     private void reversePattern(){
 
-        Collections.reverse(simonPattern);
+        Collections.reverse(userPattern);
 
     }
 
@@ -218,14 +243,17 @@ public class Game3Activity extends AppCompatActivity {
     public void simonClick(final int click_index) {
         final Runnable runnable = new Runnable() {
             public void run() {
-                if (moves[click_index] == 1) {
-                    makeSound(R.id.green_im);
-                    lightUp(greenButton);
+                //if (moves[click_index] == 1) {
+                    if (simonPattern.get(click_index) == 1) {
+                        makeSound(R.id.green_im);
+                        lightUp(greenButton);
 
-                } else if (moves[click_index] == 2) {
+                        // } else if (moves[click_index] == 2)
+                    }else if (simonPattern.get(click_index) == 2) {
                     makeSound(R.id.red_ib);
                     lightUp(redButton);
-                } else if (moves[click_index] == 3) {
+               // } else if (moves[click_index] == 3) {
+                    }else if (simonPattern.get(click_index) == 3) {
                     makeSound(R.id.yellow_ib);
                     lightUp(yellowButton);
                 } else {
@@ -244,15 +272,7 @@ public class Game3Activity extends AppCompatActivity {
         return rand.nextInt(4) + 1; // generate a random number between 1 and 4
     }
 
-    private void addToArray() {  // add random number to the first free position in the array
-        for (int i = 0; i < CAPACITY; i++) {
-            if (moves[i] == 0) {
-                moves[i] = random();
-                break;
-            }
 
-        }
-    }
 
     class AboutListener implements View.OnClickListener {
         @Override
