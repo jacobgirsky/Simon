@@ -40,6 +40,9 @@ public class MainActivity extends AppCompatActivity implements SingleChoiceDialo
         } else if (position == 1) {
             Intent intent = new Intent(getApplicationContext(), Game2Activity.class);
             startActivity(intent);
+        }  else if (position == 2) {
+            Intent intent = new Intent(getApplicationContext(), Game3Activity.class);
+            startActivity(intent);
         }
     }
 

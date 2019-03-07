@@ -27,7 +27,7 @@ import java.util.List;
 import java.util.Random;
 import java.util.Vector;
 
-public class Game1Activity extends AppCompatActivity {
+public class Game3Activity extends AppCompatActivity {
 
     ImageButton greenButton, redButton, yellowButton, blueButton;
     int x;
@@ -44,7 +44,7 @@ public class Game1Activity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_game1);
+        setContentView(R.layout.activity_game3);
 
         if (savedInstanceState == null) {
             highScore = 0;
@@ -95,7 +95,7 @@ public class Game1Activity extends AppCompatActivity {
                 if (moves[numberOfClicksEachLevel] != x) { // If the user gets it wrong
                     soundPool.play(loseSound, 1, 1, 1, 0, 1f);
 
-                    AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(Game1Activity.this);
+                    AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(Game3Activity.this);
                     alertDialogBuilder.setMessage("GAME OVER, your score was " + currentScore);
                     alertDialogBuilder.setPositiveButton("Ok",
                             new DialogInterface.OnClickListener() {
@@ -113,31 +113,31 @@ public class Game1Activity extends AppCompatActivity {
                     return true;
                 }
                 //if the user gets its right
-                    makeSound(v.getId());
-                    lightUp(v);
-                    numberOfClicksEachLevel++;
-                    final TextView tv = findViewById(R.id.current_score_tv);
-                    TextView textView = findViewById(R.id.high_score_tv);
+                makeSound(v.getId());
+                lightUp(v);
+                numberOfClicksEachLevel++;
+                final TextView tv = findViewById(R.id.current_score_tv);
+                TextView textView = findViewById(R.id.high_score_tv);
 
-                    if (numItemsInArray == numberOfClicksEachLevel) {
+                if (numItemsInArray == numberOfClicksEachLevel) {
 
-                        currentScore++;
-                        tv.setText("Current score: " + currentScore);
+                    currentScore++;
+                    tv.setText("Current score: " + currentScore);
 
-                        numberOfClicksEachLevel = 0;
-                        if (numItemsInArray > highScore) {
-                            highScore = numItemsInArray;
-                            textView.setText("High score: " + highScore);
+                    numberOfClicksEachLevel = 0;
+                    if (numItemsInArray > highScore) {
+                        highScore = numItemsInArray;
+                        textView.setText("High score: " + highScore);
 
-                        }
-                        final Runnable runnable = new Runnable() {
-                            public void run() {
-                                playGame();
-                            }
-                        };
-                        handler.postDelayed(runnable, 1500);
                     }
+                    final Runnable runnable = new Runnable() {
+                        public void run() {
+                            playGame();
+                        }
+                    };
+                    handler.postDelayed(runnable, 1500);
                 }
+            }
 
             return true;
         }
@@ -172,9 +172,38 @@ public class Game1Activity extends AppCompatActivity {
     public void playGame() {
         addToArray();
         numItemsInArray++;
+        //moves = reverse(moves, moves.length);
         for (int i = 0; i < numItemsInArray; i++) {
             simonClick(i);
         }
+
+    }
+    private void reversePattern(){
+
+        Collections.reverse(simonPattern);
+
+    }
+
+    private int[] reverse(int[] moves, int s) {
+
+        for (int i = 0; i < s / 2; i++) {
+            int t = moves[i];
+            moves[i] = moves[s - i - 1];
+            moves[s - i - 1] = t;
+
+        }
+        for (int k = 0; k < s; k++) {
+            Log.i("*************", "array "+ moves[k]);
+        }
+        return moves;
+
+         /*   int[] reverse = new int[s];
+        int j = s;
+        for (int i = 0; i < s; i++) {
+            reverse[j - 1] = moves[i];
+            j = j - 1;
+        }*/
+
 
     }
 
