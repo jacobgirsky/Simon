@@ -28,7 +28,12 @@ public class MainActivity extends AppCompatActivity implements SingleChoiceDialo
                 singleChoiceDialog.show(getSupportFragmentManager(), "Single Choice Dialog");
             }
         });
-
+        // add a colorful text to simon_textview with html
+        TextView simon_tv = findViewById(R.id.simon_textview);
+        String text = "<font color=#cc0029>S</font><font color=#ffcc00>I</font>" +
+                "<font color=#00B2EE>M</font><font color=#00ff00>O</font>" +
+                "<font color=#ffcc00>N</font>";
+        simon_tv.setText(Html.fromHtml(text));
 
     }
 
@@ -39,6 +44,9 @@ public class MainActivity extends AppCompatActivity implements SingleChoiceDialo
             startActivity(intent);
         } else if (position == 1) {
             Intent intent = new Intent(getApplicationContext(), Game2Activity.class);
+            startActivity(intent);
+        }  else if (position == 2) {
+            Intent intent = new Intent(getApplicationContext(), Game3Activity.class);
             startActivity(intent);
         }
     }
