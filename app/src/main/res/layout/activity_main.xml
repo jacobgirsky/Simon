@@ -17,7 +17,7 @@
         android:layout_marginEnd="8dp"
         android:text="Simon"
         android:textColor="#ff0000"
-        android:textSize="40dp"
+        android:textSize="45dp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -71,24 +71,6 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.45"
         app:srcCompat="@drawable/simon" />
-
-    <TextView
-        android:id="@+id/high_score_tv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
-        android:text="High Score \n         0"
-        android:textColor="#ffffff"
-        android:textSize="20sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.475" />
 
 
 </android.support.constraint.ConstraintLayout>

@@ -28,12 +28,12 @@ import java.util.Random;
 
 public class Game1Activity extends AppCompatActivity {
 
-    ImageButton greenButton, redButton, yellowButton, blueButton;
-    int x;
-    final int CAPACITY = 500;
-    int moves[] = new int[CAPACITY];
-    int currentScore = 0, highScore;
-    int numItemsInArray = 0, numberOfClicksEachLevel = 0, loseSound;
+    private ImageButton greenButton, redButton, yellowButton, blueButton;
+    private int x;
+    private final int CAPACITY = 500;
+    private int moves[] = new int[CAPACITY];
+    private int currentScore = 0, highScore;
+    private int numItemsInArray = 0, numberOfClicksEachLevel = 0, loseSound;
     public SoundPool soundPool = new SoundPool(10, AudioManager.STREAM_MUSIC, 0);
     Random rand = new Random();
     final Handler handler = new Handler();
@@ -70,6 +70,7 @@ public class Game1Activity extends AppCompatActivity {
 
     }
 
+    // user clicking the button
     View.OnTouchListener clicked = new View.OnTouchListener() {
         @Override
         public boolean onTouch(View v, MotionEvent event) {
@@ -89,7 +90,9 @@ public class Game1Activity extends AppCompatActivity {
                         x = 4;
                         break;
                 }
-                if (moves[numberOfClicksEachLevel] != x) { // If the user gets it wrong
+
+                // If the user gets it wrong
+                if (moves[numberOfClicksEachLevel] != x) {
                     soundPool.play(loseSound, 1, 1, 1, 0, 1f);
 
                     AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(Game1Activity.this);
@@ -97,7 +100,7 @@ public class Game1Activity extends AppCompatActivity {
                     alertDialogBuilder.setPositiveButton("Ok",
                             new DialogInterface.OnClickListener() {
                                 @Override
-                                public void onClick(DialogInterface arg0, int arg1) {
+                                public void onClick(DialogInterface dialogInterface, int arg) {
                                     finish();
                                     Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                                     startActivity(intent);
@@ -139,6 +142,37 @@ public class Game1Activity extends AppCompatActivity {
         }
     };
 
+    public void playGame() {
+        addToArray();
+        numItemsInArray++;
+        for (int i = 0; i < numItemsInArray; i++) {
+            simonClick(i);
+        }
+    }
+
+    public void simonClick(final int click_index) {
+        final Runnable runnable = new Runnable() {
+            public void run() {
+                if (moves[click_index] == 1) {
+                    makeSound(R.id.green_im);
+                    lightUp(greenButton);
+                } else if (moves[click_index] == 2) {
+                    makeSound(R.id.red_ib);
+                    lightUp(redButton);
+                } else if (moves[click_index] == 3) {
+                    makeSound(R.id.yellow_ib);
+                    lightUp(yellowButton);
+                } else {
+                    makeSound(R.id.blue_ib);
+                    lightUp(blueButton);
+                }
+            }
+        };
+
+        handler.postDelayed(runnable, (1500) * click_index);
+
+    }
+
     // adds the sounds to the correct buttons that are being pressed
     private void makeSound(int soundID) {
         int audioRes = 0;
@@ -165,13 +199,6 @@ public class Game1Activity extends AppCompatActivity {
         mediaPlayer.start();
     }
 
-    public void playGame() {
-        addToArray();
-        numItemsInArray++;
-        for (int i = 0; i < numItemsInArray; i++) {
-            simonClick(i);
-        }
-    }
 
     // makes the buttons light up
     private void lightUp(View v) {
@@ -181,28 +208,6 @@ public class Game1Activity extends AppCompatActivity {
         v.startAnimation(mAnimation);
     }
 
-    public void simonClick(final int click_index) {
-        final Runnable runnable = new Runnable() {
-            public void run() {
-                if (moves[click_index] == 1) {
-                    makeSound(R.id.green_im);
-                    lightUp(greenButton);
-                } else if (moves[click_index] == 2) {
-                    makeSound(R.id.red_ib);
-                    lightUp(redButton);
-                } else if (moves[click_index] == 3) {
-                    makeSound(R.id.yellow_ib);
-                    lightUp(yellowButton);
-                } else {
-                    makeSound(R.id.blue_ib);
-                    lightUp(blueButton);
-                }
-            }
-        };
-
-        handler.postDelayed(runnable, (1500) * click_index);
-
-    }
 
 
     private int random() {
