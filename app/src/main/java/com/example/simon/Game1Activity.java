@@ -41,7 +41,6 @@ public class Game1Activity extends AppCompatActivity {
     public SoundPool soundPool = new SoundPool(10, AudioManager.STREAM_MUSIC, 0);
     Random rand = new Random();
     final Handler handler = new Handler();
-    //TextView textView;
 
 
     @Override
@@ -49,13 +48,16 @@ public class Game1Activity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game1);
 
+        // saves the high score
         SharedPreferences prefs = this.getSharedPreferences("GET_HIGH_SCORE", Context.MODE_PRIVATE);
         highScore = prefs.getInt("HIGH_SCORE", 0);
 
+        // updates the textview for the high score
         runOnUiThread(new Runnable() {
             public void run() {
                 TextView tv = findViewById(R.id.high_score_tv);
                 tv.setText("High score: " + highScore);
+                Log.i("HIGH SCORE", "High score: " + highScore);
             }
         });
 
@@ -73,7 +75,6 @@ public class Game1Activity extends AppCompatActivity {
         redButton.setOnTouchListener(clicked);
         yellowButton.setOnTouchListener(clicked);
         blueButton.setOnTouchListener(clicked);
-
 
 
         playGame();
