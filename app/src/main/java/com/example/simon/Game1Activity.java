@@ -1,11 +1,14 @@
 package com.example.simon;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.media.SoundPool;
 import android.os.Handler;
+import android.preference.PreferenceManager;
 import android.support.annotation.IntRange;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -38,6 +41,7 @@ public class Game1Activity extends AppCompatActivity {
     public SoundPool soundPool = new SoundPool(10, AudioManager.STREAM_MUSIC, 0);
     Random rand = new Random();
     final Handler handler = new Handler();
+    //TextView textView;
 
 
     @Override
@@ -45,11 +49,16 @@ public class Game1Activity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game1);
 
-        if (savedInstanceState == null) {
-            highScore = 0;
-        } else {
-            highScore = savedInstanceState.getInt("highScore", 0);
-        }
+        SharedPreferences prefs = this.getSharedPreferences("GET_HIGH_SCORE", Context.MODE_PRIVATE);
+        highScore = prefs.getInt("HIGH_SCORE", 0);
+
+        runOnUiThread(new Runnable() {
+            public void run() {
+                TextView tv = findViewById(R.id.high_score_tv);
+                tv.setText("High score: " + highScore);
+            }
+        });
+
 
         loseSound = soundPool.load(this, R.raw.lose, 1);
 
@@ -69,6 +78,12 @@ public class Game1Activity extends AppCompatActivity {
 
         playGame();
 
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        finish();
     }
 
     View.OnTouchListener clicked = new View.OnTouchListener() {
@@ -100,7 +115,6 @@ public class Game1Activity extends AppCompatActivity {
                             new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface arg0, int arg1) {
-                                    finish();
                                     Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                                     startActivity(intent);
                                 }
@@ -126,6 +140,11 @@ public class Game1Activity extends AppCompatActivity {
                         numberOfClicksEachLevel = 0;
                         if (numItemsInArray > highScore) {
                             highScore = numItemsInArray;
+                            SharedPreferences highScores = getSharedPreferences("GET_HIGH_SCORE", Context.MODE_PRIVATE);
+                            SharedPreferences.Editor editor = highScores.edit();
+                            editor.putInt("HIGH_SCORE", highScore);
+                            editor.commit();
+
                             textView.setText("High score: " + highScore);
 
                         }
@@ -249,12 +268,6 @@ public class Game1Activity extends AppCompatActivity {
         }
     }
 
-    @Override
-    protected void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-
-        outState.putInt("highScore", highScore);
-    }
 }
 
 

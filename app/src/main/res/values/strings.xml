@@ -3,7 +3,7 @@
     <string-array name="choice_items">
         <item>Simon Original</item>
         <item>Game 2</item>
-        <item>Game 3</item>
+        <item>Simon Reverse</item>
         <item>Game 4</item>
     </string-array>
 </resources>
