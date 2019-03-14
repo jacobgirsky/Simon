@@ -16,7 +16,7 @@ public class Sound extends Activity {
         return this.sound;
     }
 
-
+    // adds the sounds to the correct buttons that are being pressed
     public static void makeSound(Context context, int soundID) {
         Sound sound = new Sound();
         if (soundID == R.id.green_im) {
