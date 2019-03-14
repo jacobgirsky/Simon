@@ -31,6 +31,7 @@ import java.util.Vector;
 public class Game3Activity extends AppCompatActivity {
 
     ImageButton greenButton, redButton, yellowButton, blueButton;
+    int[] button_ids = new int[]{R.id.blue_ib , R.id.red_ib, R.id.green_im, R.id.yellow_ib};
     int x;
     final int CAPACITY = 500;
     int moves[] = new int[CAPACITY];
@@ -244,21 +245,25 @@ public class Game3Activity extends AppCompatActivity {
         final Runnable runnable = new Runnable() {
             public void run() {
                 //if (moves[click_index] == 1) {
-                    if (simonPattern.get(click_index) == 1) {
-                        makeSound(R.id.green_im);
-                        lightUp(greenButton);
+                if (simonPattern.get(click_index) == 1) {
+                    makeSound(R.id.green_im);
+                    lightUp(greenButton);
 
-                        // } else if (moves[click_index] == 2)
-                    }else if (simonPattern.get(click_index) == 2) {
+                    // } else if (moves[click_index] == 2)
+                } else if (simonPattern.get(click_index) == 2) {
                     makeSound(R.id.red_ib);
                     lightUp(redButton);
-               // } else if (moves[click_index] == 3) {
-                    }else if (simonPattern.get(click_index) == 3) {
+                    // } else if (moves[click_index] == 3) {
+                } else if (simonPattern.get(click_index) == 3) {
                     makeSound(R.id.yellow_ib);
                     lightUp(yellowButton);
                 } else {
                     makeSound(R.id.blue_ib);
                     lightUp(blueButton);
+                }
+                for (int i = 0; i < button_ids.length; i++) {
+                    ImageButton imageButton = findViewById(button_ids[i]);
+                    imageButton.setClickable(false);
                 }
             }
         };
