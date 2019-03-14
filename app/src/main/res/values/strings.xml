@@ -2,8 +2,7 @@
     <string name="app_name">Simon</string>
     <string-array name="choice_items">
         <item>Simon Original</item>
-        <item>Game 2</item>
-        <item>Simon Reverse</item>
-        <item>Game 4</item>
+        <item>Simon Advanced</item>
+        <item>Simon Rewind</item>
     </string-array>
 </resources>
