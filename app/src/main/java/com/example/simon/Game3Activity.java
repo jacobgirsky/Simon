@@ -121,7 +121,7 @@ public class Game3Activity extends AppCompatActivity {
                 }
                 //if the user gets its right
                 Sound.makeSound(context, v.getId());
-                lightUp(v);
+                Sound.lightUp(v);
                 numberOfClicksEachLevel++;
                 final TextView tv = findViewById(R.id.current_score_tv);
                 TextView textView = findViewById(R.id.high_score_tv);
@@ -211,33 +211,25 @@ public class Game3Activity extends AppCompatActivity {
 
     }
 
-    // makes the buttons light up
-    private void lightUp(View v) {
-        Animation mAnimation = new AlphaAnimation(1, 0);
-        mAnimation.setDuration(300);
-        mAnimation.setInterpolator(new LinearInterpolator());
-        v.startAnimation(mAnimation);
-    }
-
     public void simonClick(final int click_index) {
         final Runnable runnable = new Runnable() {
             public void run() {
                 //if (moves[click_index] == 1) {
                 if (simonPattern.get(click_index) == 1) {
                     Sound.makeSound(context, R.id.green_im);
-                    lightUp(greenButton);
+                    Sound.lightUp(greenButton);
 
                     // } else if (moves[click_index] == 2)
                 } else if (simonPattern.get(click_index) == 2) {
                     Sound.makeSound(context, R.id.red_ib);
-                    lightUp(redButton);
+                    Sound.lightUp(redButton);
                     // } else if (moves[click_index] == 3) {
                 } else if (simonPattern.get(click_index) == 3) {
                     Sound.makeSound(context, R.id.yellow_ib);
-                    lightUp(yellowButton);
+                    Sound.lightUp(yellowButton);
                 } else {
                     Sound.makeSound(context, R.id.blue_ib);
-                    lightUp(blueButton);
+                    Sound.lightUp(blueButton);
                 }
                 for (int i = 0; i < button_ids.length; i++) {
                     ImageButton imageButton = findViewById(button_ids[i]);

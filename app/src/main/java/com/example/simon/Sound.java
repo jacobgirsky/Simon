@@ -3,6 +3,10 @@ package com.example.simon;
 import android.app.Activity;
 import android.content.Context;
 import android.media.MediaPlayer;
+import android.view.View;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
+import android.view.animation.LinearInterpolator;
 
 public class Sound extends Activity {
     private int sound;
@@ -44,6 +48,13 @@ public class Sound extends Activity {
             }
         });
         mediaPlayer.start();
+    }
+
+    public static void lightUp(View v) {
+        Animation mAnimation = new AlphaAnimation(1, 0);
+        mAnimation.setDuration(300);
+        mAnimation.setInterpolator(new LinearInterpolator());
+        v.startAnimation(mAnimation);
     }
 }
 
