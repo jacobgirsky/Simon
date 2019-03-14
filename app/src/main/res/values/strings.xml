@@ -2,7 +2,7 @@
     <string name="app_name">Simon</string>
     <string-array name="choice_items">
         <item>Simon Original</item>
-        <item>Simon Advanced</item>
+        <item>Simon Plus</item>
         <item>Simon Rewind</item>
     </string-array>
 </resources>

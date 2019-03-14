@@ -62,12 +62,11 @@ public class MainActivity extends AppCompatActivity implements SingleChoiceDialo
             String message = "<html>" +
                     "<br><font color=#cc0029 size=><b>About the game</b></font><br><br>" +
                     "<font color=#ffcc00><b>Developers: </b></font><font color=#00B2EE> Bushra and Jacob</font><br><br>" +
-                    "<font color=#ffcc00><b>Song: </b></font><font color=#00B2EE> TBD</font><br><br>" +
-                    "<font color=#ffcc00><b>Creator: </b></font><font color=#00B2EE> TBD</font><br><br>" +
-                    "<font color=#ffcc00><b>Link: </b></font><font color=#00B2EE>"+
-                    "   https://opengameart.org/content/caketown-cuteplayful\"</font><br><br>"+
-                    "<font color=#ffcc00><b>License: </b></font><font color=#00B2EE> CC-BY 3.0</font>" +
-                    "</html>";
+                    "<font color=#ffcc00><b>Sounds: </b></font><font color=#00B2EE> All sounds came from freesound.org</font><br><br>" +
+                    "<font color=#ffcc00><b>Images: </b></font><font color=#00B2EE> All images came from openclipart.org</font><br><br>" +
+                    "<font color=#ffcc00><b>Links: </b></font>"+
+                    " <a href=\"https://www.freesound.org/html/\">freesound.org</a>\"</font>" +
+                    " <a href=\"https://www.openclipart.org/html/\">openclipart.org</a>\"</font><br><br>" + "</html>";
 
 
             AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
