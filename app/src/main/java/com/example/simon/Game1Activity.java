@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.LightingColorFilter;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.media.SoundPool;
@@ -112,6 +113,7 @@ public class Game1Activity extends AppCompatActivity {
                     soundPool.play(loseSound, 1, 1, 1, 0, 1f);
 
                     AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(Game1Activity.this);
+
                     alertDialogBuilder.setMessage("GAME OVER, your score was " + currentScore);
                     alertDialogBuilder.setPositiveButton("Ok",
                             new DialogInterface.OnClickListener() {
@@ -121,79 +123,50 @@ public class Game1Activity extends AppCompatActivity {
                                     startActivity(intent);
                                 }
                             });
-
                     AlertDialog alertDialog = alertDialogBuilder.create();
                     alertDialog.show();
+                   // alertDialog.getWindow().setBackgroundDrawableResource(android.R.color.background_dark);
+                    alertDialog.getWindow().getDecorView().getBackground().setColorFilter(new LightingColorFilter(0xFF000000,0xFFD5D8DC));
+
 
                     return true;
                 }
                 //if the user gets its right
-                    Sound.makeSound(context,v.getId());
-                    Sound.lightUp(v);
-                    numberOfClicksEachLevel++;
-                    final TextView tv = findViewById(R.id.current_score_tv);
-                    TextView textView = findViewById(R.id.high_score_tv);
+                Sound.makeSound(context, v.getId());
+                Sound.lightUp(v);
+                numberOfClicksEachLevel++;
+                final TextView tv = findViewById(R.id.current_score_tv);
+                TextView textView = findViewById(R.id.high_score_tv);
 
-                    if (numItemsInArray == numberOfClicksEachLevel) {
+                if (numItemsInArray == numberOfClicksEachLevel) {
 
-                        currentScore++;
-                        tv.setText("Current score: " + currentScore);
+                    currentScore++;
+                    tv.setText("Current score: " + currentScore);
 
-                        numberOfClicksEachLevel = 0;
-                        if (numItemsInArray > highScore) {
-                            highScore = numItemsInArray;
-                            SharedPreferences highScores = getSharedPreferences("GET_HIGH_SCORE", Context.MODE_PRIVATE);
-                            SharedPreferences.Editor editor = highScores.edit();
-                            editor.putInt("HIGH_SCORE", highScore);
-                            editor.commit();
+                    numberOfClicksEachLevel = 0;
+                    if (numItemsInArray > highScore) {
+                        highScore = numItemsInArray;
+                        SharedPreferences highScores = getSharedPreferences("GET_HIGH_SCORE", Context.MODE_PRIVATE);
+                        SharedPreferences.Editor editor = highScores.edit();
+                        editor.putInt("HIGH_SCORE", highScore);
+                        editor.commit();
 
-                            textView.setText("High score: " + highScore);
+                        textView.setText("High score: " + highScore);
 
-                        }
-                        final Runnable runnable = new Runnable() {
-                            public void run() {
-                                playGame();
-                            }
-                        };
-                        handler.postDelayed(runnable, 1500);
                     }
+                    final Runnable runnable = new Runnable() {
+                        public void run() {
+                            playGame();
+                        }
+                    };
+                    handler.postDelayed(runnable, 1500);
                 }
+            }
 
             return true;
         }
     };
-
-    // adds the sounds to the correct buttons that are being pressed
-   /* private void makeSound(int soundID) {
-        //int audioRes = 0;
-        Sound audioRes = new Sound();
-        if (soundID == R.id.green_im) {
-            //audioRes = R.raw.greenbutton;
-            audioRes.setSound(R.raw.greenbutton);
-        }
-        else if (soundID == R.id.red_ib) {
-           // audioRes = R.raw.redbutton;
-            audioRes.setSound(R.raw.redbutton);
-        }
-        else if (soundID == R.id.yellow_ib) {
-          //  audioRes = R.raw.yellowbutton;
-            audioRes.setSound(R.raw.yellowbutton);
-        }
-        else if (soundID == R.id.blue_ib) {
-           // audioRes = R.raw.bluebutton;
-            audioRes.setSound(R.raw.greenbutton);
-        }
-
-        MediaPlayer mediaPlayer = MediaPlayer.create(this, audioRes.getSound());
-        mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-            @Override
-            public void onCompletion(MediaPlayer mp) {
-                mp.release();
-            }
-        });
-        mediaPlayer.start();
-    }
-*/
+    
     public void playGame() {
         addToArray();
         numItemsInArray++;
@@ -207,17 +180,17 @@ public class Game1Activity extends AppCompatActivity {
         final Runnable runnable = new Runnable() {
             public void run() {
                 if (moves[click_index] == 1) {
-                   Sound.makeSound(context,R.id.green_im);
+                    Sound.makeSound(context, R.id.green_im);
                     Sound.lightUp(greenButton);
 
                 } else if (moves[click_index] == 2) {
-                    Sound.makeSound(context,R.id.red_ib);
+                    Sound.makeSound(context, R.id.red_ib);
                     Sound.lightUp(redButton);
                 } else if (moves[click_index] == 3) {
-                    Sound.makeSound(context,R.id.yellow_ib);
+                    Sound.makeSound(context, R.id.yellow_ib);
                     Sound.lightUp(yellowButton);
                 } else {
-                    Sound.makeSound(context,R.id.blue_ib);
+                    Sound.makeSound(context, R.id.blue_ib);
                     Sound.lightUp(blueButton);
                 }
             }
@@ -257,10 +230,12 @@ public class Game1Activity extends AppCompatActivity {
 
             AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
             builder.setMessage(Html.fromHtml(message));
-            builder.setPositiveButton("OK" , null);
+            builder.setPositiveButton("OK", null);
 
             AlertDialog dialog = builder.create();
             dialog.show();
+            dialog.getWindow().getDecorView().getBackground().setColorFilter(new LightingColorFilter(0xFF000000,0xFFD5D8DC));
+
 
             TextView tv = dialog.findViewById(android.R.id.message); // sets html in TV
             tv.setMovementMethod(LinkMovementMethod.getInstance());

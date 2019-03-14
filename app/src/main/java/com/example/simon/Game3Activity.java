@@ -3,6 +3,7 @@ package com.example.simon;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.LightingColorFilter;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.media.SoundPool;
@@ -267,6 +268,8 @@ public class Game3Activity extends AppCompatActivity {
 
             AlertDialog dialog = builder.create();
             dialog.show();
+            dialog.getWindow().getDecorView().getBackground().setColorFilter(new LightingColorFilter(0xFF000000,0xFFD5D8DC));
+
 
             TextView tv = dialog.findViewById(android.R.id.message); // sets html in TV
             tv.setMovementMethod(LinkMovementMethod.getInstance());
