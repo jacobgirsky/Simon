@@ -29,7 +29,6 @@ public class SimonPlus extends AppCompatActivity {
     int currentScore = 0, highScore;
     int numItemsInArray = 0, numberOfClicksEachLevel = 0, loseSound;
     public SoundPool soundPool = new SoundPool(10, AudioManager.STREAM_MUSIC, 0);
-    Random rand = new Random();
     final Handler handler = new Handler();
 
 
@@ -201,15 +200,10 @@ public class SimonPlus extends AppCompatActivity {
 
     }
 
-
-    private int random() {
-        return rand.nextInt(6) + 1; // generate a random number between 1 and 6
-    }
-
     private void addToArray() {  // add random number to the first free position in the array
         for (int i = 0; i < CAPACITY; i++) {
             if (moves[i] == 0) {
-                moves[i] = random();
+                moves[i] = Sound.random(6);
                 break;
             }
 

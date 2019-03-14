@@ -8,6 +8,8 @@ import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.animation.LinearInterpolator;
 
+import java.util.Random;
+
 public class Sound extends Activity {
     private int sound;
 
@@ -60,5 +62,14 @@ public class Sound extends Activity {
         mAnimation.setInterpolator(new LinearInterpolator());
         v.startAnimation(mAnimation);
     }
+
+    public static int random(int random) {
+        Random rand = new Random();
+        return rand.nextInt(random) + 1; // generate a random number between 1 and 4
+    }
+
+
 }
+
+
 
