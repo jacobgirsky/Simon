@@ -1,5 +1,6 @@
 package com.example.simon;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.media.AudioManager;
@@ -29,7 +30,7 @@ import java.util.Random;
 import java.util.Vector;
 
 public class Game3Activity extends AppCompatActivity {
-
+    Context context;
     ImageButton greenButton, redButton, yellowButton, blueButton;
     int[] button_ids = new int[]{R.id.blue_ib , R.id.red_ib, R.id.green_im, R.id.yellow_ib};
     int x;
@@ -50,6 +51,8 @@ public class Game3Activity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game3);
 
+        context = getApplicationContext();
+        
         if (savedInstanceState == null) {
             highScore = 0;
         } else {
