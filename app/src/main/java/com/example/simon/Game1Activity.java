@@ -31,7 +31,7 @@ import java.util.Random;
 import java.util.Vector;
 
 public class Game1Activity extends AppCompatActivity {
-
+    Context context;
     ImageButton greenButton, redButton, yellowButton, blueButton;
     int x;
     final int CAPACITY = 500;
@@ -48,6 +48,7 @@ public class Game1Activity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game1);
 
+        context = getApplicationContext();
         // saves the high score
         SharedPreferences prefs = this.getSharedPreferences("GET_HIGH_SCORE", Context.MODE_PRIVATE);
         highScore = prefs.getInt("HIGH_SCORE", 0);
@@ -127,8 +128,8 @@ public class Game1Activity extends AppCompatActivity {
                     return true;
                 }
                 //if the user gets its right
-                    makeSound(v.getId());
-                    lightUp(v);
+                    Sound.makeSound(context,v.getId());
+                    Sound.lightUp(v);
                     numberOfClicksEachLevel++;
                     final TextView tv = findViewById(R.id.current_score_tv);
                     TextView textView = findViewById(R.id.high_score_tv);
@@ -163,22 +164,27 @@ public class Game1Activity extends AppCompatActivity {
     };
 
     // adds the sounds to the correct buttons that are being pressed
-    private void makeSound(int soundID) {
-        int audioRes = 0;
+   /* private void makeSound(int soundID) {
+        //int audioRes = 0;
+        Sound audioRes = new Sound();
         if (soundID == R.id.green_im) {
-            audioRes = R.raw.greenbutton;
+            //audioRes = R.raw.greenbutton;
+            audioRes.setSound(R.raw.greenbutton);
         }
         else if (soundID == R.id.red_ib) {
-            audioRes = R.raw.redbutton;
+           // audioRes = R.raw.redbutton;
+            audioRes.setSound(R.raw.redbutton);
         }
         else if (soundID == R.id.yellow_ib) {
-            audioRes = R.raw.yellowbutton;
+          //  audioRes = R.raw.yellowbutton;
+            audioRes.setSound(R.raw.yellowbutton);
         }
         else if (soundID == R.id.blue_ib) {
-            audioRes = R.raw.bluebutton;
+           // audioRes = R.raw.bluebutton;
+            audioRes.setSound(R.raw.greenbutton);
         }
 
-        MediaPlayer mediaPlayer = MediaPlayer.create(this, audioRes);
+        MediaPlayer mediaPlayer = MediaPlayer.create(this, audioRes.getSound());
         mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
             @Override
             public void onCompletion(MediaPlayer mp) {
@@ -187,7 +193,7 @@ public class Game1Activity extends AppCompatActivity {
         });
         mediaPlayer.start();
     }
-
+*/
     public void playGame() {
         addToArray();
         numItemsInArray++;
@@ -197,30 +203,22 @@ public class Game1Activity extends AppCompatActivity {
 
     }
 
-    // makes the buttons light up
-    private void lightUp(View v) {
-        Animation mAnimation = new AlphaAnimation(1, 0);
-        mAnimation.setDuration(300);
-        mAnimation.setInterpolator(new LinearInterpolator());
-        v.startAnimation(mAnimation);
-    }
-
     public void simonClick(final int click_index) {
         final Runnable runnable = new Runnable() {
             public void run() {
                 if (moves[click_index] == 1) {
-                    makeSound(R.id.green_im);
-                    lightUp(greenButton);
+                   Sound.makeSound(context,R.id.green_im);
+                    Sound.lightUp(greenButton);
 
                 } else if (moves[click_index] == 2) {
-                    makeSound(R.id.red_ib);
-                    lightUp(redButton);
+                    Sound.makeSound(context,R.id.red_ib);
+                    Sound.lightUp(redButton);
                 } else if (moves[click_index] == 3) {
-                    makeSound(R.id.yellow_ib);
-                    lightUp(yellowButton);
+                    Sound.makeSound(context,R.id.yellow_ib);
+                    Sound.lightUp(yellowButton);
                 } else {
-                    makeSound(R.id.blue_ib);
-                    lightUp(blueButton);
+                    Sound.makeSound(context,R.id.blue_ib);
+                    Sound.lightUp(blueButton);
                 }
             }
         };

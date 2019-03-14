@@ -1,5 +1,6 @@
 package com.example.simon;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.media.AudioManager;
@@ -29,13 +30,14 @@ import java.util.Random;
 import java.util.Vector;
 
 public class Game3Activity extends AppCompatActivity {
-
+    Context context;
     ImageButton greenButton, redButton, yellowButton, blueButton;
+    int[] button_ids = new int[]{R.id.blue_ib, R.id.red_ib, R.id.green_im, R.id.yellow_ib};
     int x;
     final int CAPACITY = 500;
     int moves[] = new int[CAPACITY];
     Vector<Integer> simonPattern = new Vector<>();
-   // Object userPattern;
+    // Object userPattern;
     Vector<Integer> userPattern = new Vector<>();
     int currentScore = 0, highScore;
     int numItemsInArray = 0, numberOfClicksEachLevel = 0, loseSound;
@@ -48,6 +50,8 @@ public class Game3Activity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game3);
+
+        context = getApplicationContext();
 
         if (savedInstanceState == null) {
             highScore = 0;
@@ -68,7 +72,6 @@ public class Game3Activity extends AppCompatActivity {
         redButton.setOnTouchListener(clicked);
         yellowButton.setOnTouchListener(clicked);
         blueButton.setOnTouchListener(clicked);
-
 
 
         playGame();
@@ -95,8 +98,8 @@ public class Game3Activity extends AppCompatActivity {
                         break;
                 }
 
-              //  if (moves[numberOfClicksEachLevel] != x) { // If the user gets it wrong
-                  if (userPattern.get(numberOfClicksEachLevel) != x ) {
+                //  if (moves[numberOfClicksEachLevel] != x) { // If the user gets it wrong
+                if (userPattern.get(numberOfClicksEachLevel) != x) {
                     soundPool.play(loseSound, 1, 1, 1, 0, 1f);
 
                     AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(Game3Activity.this);
@@ -117,8 +120,8 @@ public class Game3Activity extends AppCompatActivity {
                     return true;
                 }
                 //if the user gets its right
-                makeSound(v.getId());
-                lightUp(v);
+                Sound.makeSound(context, v.getId());
+                Sound.lightUp(v);
                 numberOfClicksEachLevel++;
                 final TextView tv = findViewById(R.id.current_score_tv);
                 TextView textView = findViewById(R.id.high_score_tv);
@@ -147,32 +150,6 @@ public class Game3Activity extends AppCompatActivity {
         }
     };
 
-    // adds the sounds to the correct buttons that are being pressed
-    private void makeSound(int soundID) {
-        int audioRes = 0;
-        if (soundID == R.id.green_im) {
-            audioRes = R.raw.greenbutton;
-        }
-        else if (soundID == R.id.red_ib) {
-            audioRes = R.raw.redbutton;
-        }
-        else if (soundID == R.id.yellow_ib) {
-            audioRes = R.raw.yellowbutton;
-        }
-        else if (soundID == R.id.blue_ib) {
-            audioRes = R.raw.bluebutton;
-        }
-
-        MediaPlayer mediaPlayer = MediaPlayer.create(this, audioRes);
-        mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-            @Override
-            public void onCompletion(MediaPlayer mp) {
-                mp.release();
-            }
-        });
-        mediaPlayer.start();
-    }
-
     public void playGame() {
         addToArray();
         numItemsInArray++;
@@ -185,25 +162,27 @@ public class Game3Activity extends AppCompatActivity {
         //Collections.copy(userPattern, simonPattern);
         //userPattern = (Vector)simonPattern.clone();
         Enumeration enu = simonPattern.elements();
-       // int k=0;
-        for(int i = 0; i < simonPattern.size(); i++){
+        // int k=0;
+        for (int i = 0; i < simonPattern.size(); i++) {
             //k = simonPattern.get(i);
             userPattern.add(simonPattern.get(i));
         }
         reversePattern();
     }
+
     private void addToArray() {  // add random number to the first free position in the array
         for (int i = 0; i < CAPACITY; i++) {
             //if (moves[i] == 0) {
-               //if (simonPattern.get(i) == 0) {
-                simonPattern.add(random());
-                //moves[i] = random();
-                break;
-         // }
+            //if (simonPattern.get(i) == 0) {
+            simonPattern.add(random());
+            //moves[i] = random();
+            break;
+            // }
 
         }
     }
-    private void reversePattern(){
+
+    private void reversePattern() {
 
         Collections.reverse(userPattern);
 
@@ -218,7 +197,7 @@ public class Game3Activity extends AppCompatActivity {
 
         }
         for (int k = 0; k < s; k++) {
-            Log.i("*************", "array "+ moves[k]);
+            Log.i("*************", "array " + moves[k]);
         }
         return moves;
 
@@ -232,33 +211,29 @@ public class Game3Activity extends AppCompatActivity {
 
     }
 
-    // makes the buttons light up
-    private void lightUp(View v) {
-        Animation mAnimation = new AlphaAnimation(1, 0);
-        mAnimation.setDuration(300);
-        mAnimation.setInterpolator(new LinearInterpolator());
-        v.startAnimation(mAnimation);
-    }
-
     public void simonClick(final int click_index) {
         final Runnable runnable = new Runnable() {
             public void run() {
                 //if (moves[click_index] == 1) {
-                    if (simonPattern.get(click_index) == 1) {
-                        makeSound(R.id.green_im);
-                        lightUp(greenButton);
+                if (simonPattern.get(click_index) == 1) {
+                    Sound.makeSound(context, R.id.green_im);
+                    Sound.lightUp(greenButton);
 
-                        // } else if (moves[click_index] == 2)
-                    }else if (simonPattern.get(click_index) == 2) {
-                    makeSound(R.id.red_ib);
-                    lightUp(redButton);
-               // } else if (moves[click_index] == 3) {
-                    }else if (simonPattern.get(click_index) == 3) {
-                    makeSound(R.id.yellow_ib);
-                    lightUp(yellowButton);
+                    // } else if (moves[click_index] == 2)
+                } else if (simonPattern.get(click_index) == 2) {
+                    Sound.makeSound(context, R.id.red_ib);
+                    Sound.lightUp(redButton);
+                    // } else if (moves[click_index] == 3) {
+                } else if (simonPattern.get(click_index) == 3) {
+                    Sound.makeSound(context, R.id.yellow_ib);
+                    Sound.lightUp(yellowButton);
                 } else {
-                    makeSound(R.id.blue_ib);
-                    lightUp(blueButton);
+                    Sound.makeSound(context, R.id.blue_ib);
+                    Sound.lightUp(blueButton);
+                }
+                for (int i = 0; i < button_ids.length; i++) {
+                    ImageButton imageButton = findViewById(button_ids[i]);
+                    imageButton.setClickable(false);
                 }
             }
         };
@@ -271,7 +246,6 @@ public class Game3Activity extends AppCompatActivity {
     private int random() {
         return rand.nextInt(4) + 1; // generate a random number between 1 and 4
     }
-
 
 
     class AboutListener implements View.OnClickListener {
@@ -289,7 +263,7 @@ public class Game3Activity extends AppCompatActivity {
 
             AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
             builder.setMessage(Html.fromHtml(message));
-            builder.setPositiveButton("OK" , null);
+            builder.setPositiveButton("OK", null);
 
             AlertDialog dialog = builder.create();
             dialog.show();
