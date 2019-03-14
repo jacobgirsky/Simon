@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
+import android.view.View;
 
 public class SingleChoiceDialog extends DialogFragment {
 
@@ -35,6 +36,7 @@ public class SingleChoiceDialog extends DialogFragment {
     public Dialog onCreateDialog(Bundle savedInstanceState) {
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        //View mView = getLayoutInflater().inflate(R.layout.play_dialog, null);
 
         final String[] list = getActivity().getResources().getStringArray(R.array.choice_items);
 
@@ -55,6 +57,7 @@ public class SingleChoiceDialog extends DialogFragment {
                 mListener.onNegativeButtonClicked();
             }
         });
+        //builder.setView(mView);
         return builder.create();
     }
 }

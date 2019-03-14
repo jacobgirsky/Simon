@@ -191,8 +191,8 @@ public class Game2Activity extends AppCompatActivity {
                     Sound.makeSound(context, R.id.blue_ib);
                     Sound.lightUp(blueButton);
                 } else if (moves[click_index] == 5) {
-                    Sound.makeSound(context, R.id.teal_ib);
-                    Sound.lightUp(tealButton);
+                    Sound.makeSound(context, R.id.blue_ib);
+                    Sound.lightUp(blueButton);
                 } else {
                     Sound.makeSound(context,R.id.purple_ib);
                     Sound.lightUp(purpleButton);
