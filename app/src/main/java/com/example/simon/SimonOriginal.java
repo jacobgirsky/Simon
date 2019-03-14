@@ -5,11 +5,8 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.media.AudioManager;
-import android.media.MediaPlayer;
 import android.media.SoundPool;
 import android.os.Handler;
-import android.preference.PreferenceManager;
-import android.support.annotation.IntRange;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -18,19 +15,12 @@ import android.text.method.LinkMovementMethod;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.animation.AlphaAnimation;
-import android.view.animation.Animation;
-import android.view.animation.LinearInterpolator;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
 import java.util.Random;
-import java.util.Vector;
 
-public class Game1Activity extends AppCompatActivity {
+public class SimonOriginal extends AppCompatActivity {
     Context context;
     ImageButton greenButton, redButton, yellowButton, blueButton;
     int x;
@@ -111,7 +101,7 @@ public class Game1Activity extends AppCompatActivity {
                 if (moves[numberOfClicksEachLevel] != x) { // If the user gets it wrong
                     soundPool.play(loseSound, 1, 1, 1, 0, 1f);
 
-                    AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(Game1Activity.this);
+                    AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(SimonOriginal.this);
                     alertDialogBuilder.setMessage("GAME OVER, your score was " + currentScore);
                     alertDialogBuilder.setPositiveButton("Ok",
                             new DialogInterface.OnClickListener() {
@@ -178,7 +168,6 @@ public class Game1Activity extends AppCompatActivity {
                 if (moves[click_index] == 1) {
                    Sound.makeSound(context,R.id.green_im);
                     Sound.lightUp(greenButton);
-
                 } else if (moves[click_index] == 2) {
                     Sound.makeSound(context,R.id.red_ib);
                     Sound.lightUp(redButton);

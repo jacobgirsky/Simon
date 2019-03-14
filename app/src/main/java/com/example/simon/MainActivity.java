@@ -1,11 +1,6 @@
 package com.example.simon;
 
-import android.app.Dialog;
 import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.LightingColorFilter;
-import android.graphics.drawable.ColorDrawable;
-import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -13,7 +8,6 @@ import android.os.Bundle;
 import android.text.Html;
 import android.text.method.LinkMovementMethod;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity implements SingleChoiceDialog.SingleChoiceListener {
@@ -30,7 +24,6 @@ public class MainActivity extends AppCompatActivity implements SingleChoiceDialo
                 DialogFragment singleChoiceDialog = new SingleChoiceDialog();
                 singleChoiceDialog.setCancelable(false);
                 singleChoiceDialog.show(getSupportFragmentManager(), "Single Choice Dialog");
-                //singleChoiceDialog.getDialog().getWindow().setBackgroundDrawableResource(new ColorDrawable(Color.TRANSPARENT));
 
             }
         });
@@ -46,13 +39,13 @@ public class MainActivity extends AppCompatActivity implements SingleChoiceDialo
     @Override
     public void onPostiveButtonClicked(String[] list, int position) {
         if (position == 0) {
-            Intent intent = new Intent(getApplicationContext(), Game1Activity.class);
+            Intent intent = new Intent(getApplicationContext(), SimonOriginal.class);
             startActivity(intent);
         } else if (position == 1) {
-            Intent intent = new Intent(getApplicationContext(), Game2Activity.class);
+            Intent intent = new Intent(getApplicationContext(), SimonPlus.class);
             startActivity(intent);
         }  else if (position == 2) {
-            Intent intent = new Intent(getApplicationContext(), Game3Activity.class);
+            Intent intent = new Intent(getApplicationContext(), SimonReverse.class);
             startActivity(intent);
         }
     }

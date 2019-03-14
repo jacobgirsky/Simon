@@ -20,8 +20,7 @@ import android.widget.TextView;
 
 import java.util.Random;
 
-public class Game2Activity extends AppCompatActivity {
-
+public class SimonPlus extends AppCompatActivity {
     Context context;
     ImageButton greenButton, redButton, yellowButton, blueButton, tealButton, purpleButton;
     int x;
@@ -39,7 +38,7 @@ public class Game2Activity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game2);
 
-        Context context = getApplicationContext();
+        context = getApplicationContext();
         // saves the high score
         SharedPreferences prefs = this.getSharedPreferences("GET_HIGH_SCORE", Context.MODE_PRIVATE);
         highScore = prefs.getInt("HIGH_SCORE", 0);
@@ -56,9 +55,8 @@ public class Game2Activity extends AppCompatActivity {
 
         loseSound = soundPool.load(this, R.raw.lose, 1);
 
-        findViewById(R.id.how_to_im).setOnClickListener(new Game2Activity.AboutListener());
+        findViewById(R.id.how_to_im).setOnClickListener(new AboutListener());
 
-        // gets the ids for all the buttons
         greenButton = findViewById(R.id.green_im);
         redButton = findViewById(R.id.red_ib);
         yellowButton = findViewById(R.id.yellow_ib);
@@ -66,7 +64,6 @@ public class Game2Activity extends AppCompatActivity {
         tealButton = findViewById(R.id.teal_ib);
         purpleButton = findViewById(R.id.purple_ib);
 
-        // sets the buttons for the onTouchListner
         greenButton.setOnTouchListener(clicked);
         redButton.setOnTouchListener(clicked);
         yellowButton.setOnTouchListener(clicked);
@@ -114,7 +111,7 @@ public class Game2Activity extends AppCompatActivity {
                 if (moves[numberOfClicksEachLevel] != x) { // If the user gets it wrong
                     soundPool.play(loseSound, 1, 1, 1, 0, 1f);
 
-                    AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(Game2Activity.this);
+                    AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(SimonPlus.this);
                     alertDialogBuilder.setMessage("GAME OVER, your score was " + currentScore);
                     alertDialogBuilder.setPositiveButton("Ok",
                             new DialogInterface.OnClickListener() {
@@ -185,14 +182,14 @@ public class Game2Activity extends AppCompatActivity {
                     Sound.makeSound(context,R.id.red_ib);
                     Sound.lightUp(redButton);
                 } else if (moves[click_index] == 3) {
-                    Sound.makeSound(context, R.id.yellow_ib);
+                    Sound.makeSound(context,R.id.yellow_ib);
                     Sound.lightUp(yellowButton);
                 } else if (moves[click_index] == 4) {
-                    Sound.makeSound(context, R.id.blue_ib);
+                    Sound.makeSound(context,R.id.blue_ib);
                     Sound.lightUp(blueButton);
                 } else if (moves[click_index] == 5) {
-                    Sound.makeSound(context, R.id.blue_ib);
-                    Sound.lightUp(blueButton);
+                    Sound.makeSound(context,R.id.teal_ib);
+                    Sound.lightUp(tealButton);
                 } else {
                     Sound.makeSound(context,R.id.purple_ib);
                     Sound.lightUp(purpleButton);
@@ -206,7 +203,7 @@ public class Game2Activity extends AppCompatActivity {
 
 
     private int random() {
-        return rand.nextInt(6) + 1; // generate a random number between 1 and 4
+        return rand.nextInt(6) + 1; // generate a random number between 1 and 6
     }
 
     private void addToArray() {  // add random number to the first free position in the array
@@ -243,4 +240,7 @@ public class Game2Activity extends AppCompatActivity {
             tv.setMovementMethod(LinkMovementMethod.getInstance());
         }
     }
+
 }
+
+

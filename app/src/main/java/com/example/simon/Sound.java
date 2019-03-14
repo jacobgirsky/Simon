@@ -31,6 +31,10 @@ public class Sound extends Activity {
             sound.setSound(R.raw.yellowbutton);
         } else if (soundID == R.id.blue_ib) {
             sound.setSound(R.raw.bluebutton);
+        } else if (soundID == R.id.teal_ib) {
+        sound.setSound(R.raw.tealbutton);
+        } else {
+            sound.setSound(R.raw.purplebutton);
         }
 
         sound.startMediaPlayer(context, sound.getSound());
@@ -40,7 +44,7 @@ public class Sound extends Activity {
 
     public void startMediaPlayer(Context context, int audioRes) {
 
-        MediaPlayer mediaPlayer = (MediaPlayer) MediaPlayer.create(context, audioRes);
+        MediaPlayer mediaPlayer = MediaPlayer.create(context, audioRes);
         mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
             @Override
             public void onCompletion(MediaPlayer mp) {

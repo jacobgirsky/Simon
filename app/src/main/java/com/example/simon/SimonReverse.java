@@ -5,10 +5,8 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.LightingColorFilter;
 import android.media.AudioManager;
-import android.media.MediaPlayer;
 import android.media.SoundPool;
 import android.os.Handler;
-import android.support.annotation.IntRange;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -17,20 +15,15 @@ import android.text.method.LinkMovementMethod;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.animation.AlphaAnimation;
-import android.view.animation.Animation;
-import android.view.animation.LinearInterpolator;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.Enumeration;
-import java.util.List;
 import java.util.Random;
 import java.util.Vector;
 
-public class Game3Activity extends AppCompatActivity {
+public class SimonReverse extends AppCompatActivity {
     Context context;
     ImageButton greenButton, redButton, yellowButton, blueButton;
     int[] button_ids = new int[]{R.id.blue_ib, R.id.red_ib, R.id.green_im, R.id.yellow_ib};
@@ -103,7 +96,7 @@ public class Game3Activity extends AppCompatActivity {
                 if (userPattern.get(numberOfClicksEachLevel) != x) {
                     soundPool.play(loseSound, 1, 1, 1, 0, 1f);
 
-                    AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(Game3Activity.this);
+                    AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(SimonReverse.this);
                     alertDialogBuilder.setMessage("GAME OVER, your score was " + currentScore);
                     alertDialogBuilder.setPositiveButton("Ok",
                             new DialogInterface.OnClickListener() {
