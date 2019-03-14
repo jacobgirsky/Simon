@@ -163,37 +163,6 @@ public class Game1Activity extends AppCompatActivity {
         }
     };
 
-    // adds the sounds to the correct buttons that are being pressed
-   /* private void makeSound(int soundID) {
-        //int audioRes = 0;
-        Sound audioRes = new Sound();
-        if (soundID == R.id.green_im) {
-            //audioRes = R.raw.greenbutton;
-            audioRes.setSound(R.raw.greenbutton);
-        }
-        else if (soundID == R.id.red_ib) {
-           // audioRes = R.raw.redbutton;
-            audioRes.setSound(R.raw.redbutton);
-        }
-        else if (soundID == R.id.yellow_ib) {
-          //  audioRes = R.raw.yellowbutton;
-            audioRes.setSound(R.raw.yellowbutton);
-        }
-        else if (soundID == R.id.blue_ib) {
-           // audioRes = R.raw.bluebutton;
-            audioRes.setSound(R.raw.greenbutton);
-        }
-
-        MediaPlayer mediaPlayer = MediaPlayer.create(this, audioRes.getSound());
-        mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-            @Override
-            public void onCompletion(MediaPlayer mp) {
-                mp.release();
-            }
-        });
-        mediaPlayer.start();
-    }
-*/
     public void playGame() {
         addToArray();
         numItemsInArray++;
