@@ -166,7 +166,7 @@ public class Game1Activity extends AppCompatActivity {
             return true;
         }
     };
-    
+
     public void playGame() {
         addToArray();
         numItemsInArray++;
