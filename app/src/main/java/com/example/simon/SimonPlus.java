@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.LightingColorFilter;
 import android.media.AudioManager;
 import android.media.SoundPool;
 import android.os.Handler;
@@ -45,7 +46,7 @@ public class SimonPlus extends AppCompatActivity {
         // updates the textview for the high score
         runOnUiThread(new Runnable() {
             public void run() {
-                TextView tv = findViewById(R.id.high_score_tv);
+                TextView tv = findViewById(R.id.high_score2_tv);
                 tv.setText("High score: " + highScore);
                 Log.i("HIGH SCORE", "High score: " + highScore);
             }
@@ -111,9 +112,7 @@ public class SimonPlus extends AppCompatActivity {
                     soundPool.play(loseSound, 1, 1, 1, 0, 1f);
 
                     AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(SimonPlus.this);
-                    String message = "<html>" +
-                            "<br><font color=#cc0029 size=><b>GAME OVER</b></font><br><br>" + "</html>";
-
+                    alertDialogBuilder.setMessage("GAME OVER!  your score was " + currentScore);
                     alertDialogBuilder.setPositiveButton("Ok",
                             new DialogInterface.OnClickListener() {
                                 @Override
@@ -123,20 +122,14 @@ public class SimonPlus extends AppCompatActivity {
                                 }
                             });
 
-
-                    AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
-                    builder.setMessage(Html.fromHtml(message + "Your score was " + currentScore));
-
-                    AlertDialog dialog = builder.create();
-                    dialog.show();
-
-                    TextView tv = dialog.findViewById(android.R.id.message); // sets html in TV
-                    tv.setMovementMethod(LinkMovementMethod.getInstance());
+                    AlertDialog alertDialog = alertDialogBuilder.create();
+                    alertDialog.show();
+                    alertDialog.getWindow().getDecorView().getBackground().setColorFilter(new LightingColorFilter(0x00000000, 0x00EAF2F8));
 
                     return true;
                 }
                 //if the user gets its right
-                Sound.makeSound(context,v.getId());
+                Sound.makeSound(context, v.getId());
                 Sound.lightUp(v);
                 numberOfClicksEachLevel++;
                 final TextView tv = findViewById(R.id.current_score_tv);
@@ -184,22 +177,22 @@ public class SimonPlus extends AppCompatActivity {
         final Runnable runnable = new Runnable() {
             public void run() {
                 if (moves[click_index] == 1) {
-                    Sound.makeSound(context,R.id.green_im);
+                    Sound.makeSound(context, R.id.green_im);
                     Sound.lightUp(greenButton);
                 } else if (moves[click_index] == 2) {
-                    Sound.makeSound(context,R.id.red_ib);
+                    Sound.makeSound(context, R.id.red_ib);
                     Sound.lightUp(redButton);
                 } else if (moves[click_index] == 3) {
-                    Sound.makeSound(context,R.id.yellow_ib);
+                    Sound.makeSound(context, R.id.yellow_ib);
                     Sound.lightUp(yellowButton);
                 } else if (moves[click_index] == 4) {
-                    Sound.makeSound(context,R.id.blue_ib);
+                    Sound.makeSound(context, R.id.blue_ib);
                     Sound.lightUp(blueButton);
                 } else if (moves[click_index] == 5) {
-                    Sound.makeSound(context,R.id.teal_ib);
+                    Sound.makeSound(context, R.id.teal_ib);
                     Sound.lightUp(tealButton);
                 } else {
-                    Sound.makeSound(context,R.id.purple_ib);
+                    Sound.makeSound(context, R.id.purple_ib);
                     Sound.lightUp(purpleButton);
                 }
             }
@@ -234,7 +227,7 @@ public class SimonPlus extends AppCompatActivity {
 
             AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
             builder.setMessage(Html.fromHtml(message));
-            builder.setPositiveButton("OK" , null);
+            builder.setPositiveButton("OK", null);
 
             AlertDialog dialog = builder.create();
             dialog.show();

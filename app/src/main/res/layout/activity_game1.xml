@@ -7,6 +7,20 @@
     android:background="#353a3d"
     tools:context=".SimonOriginal">
 
+    <TextView
+        android:id="@+id/title1_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:text=""
+        android:textStyle="bold"
+        android:textSize="50sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="@+id/high_score_tv"/>
+
+
     <ImageButton
         android:id="@+id/blue_ib"
         android:layout_width="wrap_content"

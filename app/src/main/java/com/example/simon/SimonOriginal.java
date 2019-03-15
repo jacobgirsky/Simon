@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.LightingColorFilter;
 import android.media.AudioManager;
 import android.media.SoundPool;
 import android.os.Handler;
@@ -36,6 +37,15 @@ public class SimonOriginal extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game1);
+        // add a colorful text to the title_text view with html
+        TextView title_tv = findViewById(R.id.title1_tv);
+        String text = "<font color=#cc0029>S</font><font color=#ffcc00>I</font>" +
+                "<font color=#00B2EE>M</font><font color=#00ff00>O</font>" +
+                "<font color=#ffcc00>N</font>" + "<font color=#cc0029> O</font><font color=#ffcc00>R</font>" +
+                "<font color=#00B2EE>I</font><font color=#00ff00>G</font>" +
+                "<font color=#ffcc00>I</font><font color=#cc0029>N</font>"+
+                "<font color=#cc0029>A</font><font color=#ffcc00>L</font>";
+        title_tv.setText(Html.fromHtml(text));
 
         context = getApplicationContext();
         // saves the high score
@@ -101,9 +111,7 @@ public class SimonOriginal extends AppCompatActivity {
                     soundPool.play(loseSound, 1, 1, 1, 0, 1f);
 
                     AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(SimonOriginal.this);
-                    String message = "<html>" +
-                            "<br><font color=#cc0029 size=><b>GAME OVER</b></font><br><br>" + "</html>";
-
+                    alertDialogBuilder.setMessage("GAME OVER!  your score was " + currentScore);
                     alertDialogBuilder.setPositiveButton("Ok",
                             new DialogInterface.OnClickListener() {
                                 @Override
@@ -113,50 +121,44 @@ public class SimonOriginal extends AppCompatActivity {
                                 }
                             });
 
-
-                    AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
-                    builder.setMessage(Html.fromHtml(message + "Your score was " + currentScore));
-
-                    AlertDialog dialog = builder.create();
-                    dialog.show();
-
-                    TextView tv = dialog.findViewById(android.R.id.message); // sets html in TV
-                    tv.setMovementMethod(LinkMovementMethod.getInstance());
+                    AlertDialog alertDialog = alertDialogBuilder.create();
+                    alertDialog.show();
+                    alertDialog.getWindow().getDecorView().getBackground().setColorFilter(new LightingColorFilter(0x00000000, 0x00EAF2F8));
 
 
                     return true;
                 }
                 //if the user gets its right
-                    Sound.makeSound(context,v.getId());
-                    Sound.lightUp(v);
-                    numberOfClicksEachLevel++;
-                    final TextView tv = findViewById(R.id.current_score_tv);
-                    TextView textView = findViewById(R.id.high_score_tv);
+                Sound.makeSound(context, v.getId());
+                Sound.lightUp(v);
+                numberOfClicksEachLevel++;
+                final TextView tv = findViewById(R.id.current_score_tv);
+                TextView textView = findViewById(R.id.high_score_tv);
 
-                    if (numItemsInArray == numberOfClicksEachLevel) {
+                if (numItemsInArray == numberOfClicksEachLevel) {
 
-                        currentScore++;
-                        tv.setText("Current score: " + currentScore);
+                    currentScore++;
+                    tv.setText("Current score: " + currentScore);
 
-                        numberOfClicksEachLevel = 0;
-                        if (numItemsInArray > highScore) {
-                            highScore = numItemsInArray;
-                            SharedPreferences highScores = getSharedPreferences("GET_HIGH_SCORE", Context.MODE_PRIVATE);
-                            SharedPreferences.Editor editor = highScores.edit();
-                            editor.putInt("HIGH_SCORE", highScore);
-                            editor.commit();
+                    numberOfClicksEachLevel = 0;
+                    if (numItemsInArray > highScore) {
+                        highScore = numItemsInArray;
+                        SharedPreferences highScores = getSharedPreferences("GET_HIGH_SCORE", Context.MODE_PRIVATE);
+                        SharedPreferences.Editor editor = highScores.edit();
+                        editor.putInt("HIGH_SCORE", highScore);
+                        editor.commit();
 
-                            textView.setText("High score: " + highScore);
+                        textView.setText("High score: " + highScore);
 
-                        }
-                        final Runnable runnable = new Runnable() {
-                            public void run() {
-                                playGame();
-                            }
-                        };
-                        handler.postDelayed(runnable, 1500);
                     }
+                    final Runnable runnable = new Runnable() {
+                        public void run() {
+                            playGame();
+                        }
+                    };
+                    handler.postDelayed(runnable, 1500);
                 }
+            }
 
             return true;
         }
@@ -175,16 +177,16 @@ public class SimonOriginal extends AppCompatActivity {
         final Runnable runnable = new Runnable() {
             public void run() {
                 if (moves[click_index] == 1) {
-                   Sound.makeSound(context,R.id.green_im);
+                    Sound.makeSound(context, R.id.green_im);
                     Sound.lightUp(greenButton);
                 } else if (moves[click_index] == 2) {
-                    Sound.makeSound(context,R.id.red_ib);
+                    Sound.makeSound(context, R.id.red_ib);
                     Sound.lightUp(redButton);
                 } else if (moves[click_index] == 3) {
-                    Sound.makeSound(context,R.id.yellow_ib);
+                    Sound.makeSound(context, R.id.yellow_ib);
                     Sound.lightUp(yellowButton);
                 } else {
-                    Sound.makeSound(context,R.id.blue_ib);
+                    Sound.makeSound(context, R.id.blue_ib);
                     Sound.lightUp(blueButton);
                 }
             }
@@ -214,12 +216,12 @@ public class SimonOriginal extends AppCompatActivity {
                     " chooses another button. You must hit those two buttons in the correct order. Simon " +
                     "keeps adding buttons growing the pattern, and you must keep pressing all the buttons, " +
                     "until you hit a wrong button.</p>" +
-                    "</html>"; // need to fix html
+                    "</html>";
 
 
             AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
             builder.setMessage(Html.fromHtml(message));
-            builder.setPositiveButton("OK" , null);
+            builder.setPositiveButton("OK", null);
 
             AlertDialog dialog = builder.create();
             dialog.show();

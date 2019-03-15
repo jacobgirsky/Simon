@@ -3,6 +3,7 @@ package com.example.simon;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.LightingColorFilter;
 import android.media.AudioManager;
 import android.media.SoundPool;
@@ -29,15 +30,14 @@ public class SimonReverse extends AppCompatActivity {
     int[] button_ids = new int[]{R.id.blue_ib, R.id.red_ib, R.id.green_im, R.id.yellow_ib};
     int x;
     final int CAPACITY = 500;
-    int moves[] = new int[CAPACITY];
     Vector<Integer> simonPattern = new Vector<>();
-    // Object userPattern;
     Vector<Integer> userPattern = new Vector<>();
     int currentScore = 0, highScore;
     int numItemsInArray = 0, numberOfClicksEachLevel = 0, loseSound;
     public SoundPool soundPool = new SoundPool(10, AudioManager.STREAM_MUSIC, 0);
     Random rand = new Random();
     final Handler handler = new Handler();
+    Boolean isSimonClick = false;
 
 
     @Override
@@ -45,13 +45,28 @@ public class SimonReverse extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game3);
 
-        context = getApplicationContext();
+        // add a colorful text to the title_text view with html
+        TextView title_tv = findViewById(R.id.title_tv);
+        String text = "<font color=#cc0029>S</font><font color=#ffcc00>I</font>" +
+                "<font color=#00B2EE>M</font><font color=#00ff00>O</font>" +
+                "<font color=#ffcc00>N</font>" + "<font color=#cc0029> R</font><font color=#ffcc00>E</font>" +
+                "<font color=#00B2EE>W</font><font color=#00ff00>I</font>" +
+                "<font color=#ffcc00>N</font><font color=#cc0029>D</font>";
+        title_tv.setText(Html.fromHtml(text));
 
-        if (savedInstanceState == null) {
-            highScore = 0;
-        } else {
-            highScore = savedInstanceState.getInt("highScore", 0);
-        }
+        context = getApplicationContext();
+        // saves the high score
+        SharedPreferences prefs = this.getSharedPreferences("GET_HIGH_SCORE", Context.MODE_PRIVATE);
+        highScore = prefs.getInt("HIGH_SCORE", 0);
+
+        // updates the textview for the high score
+        runOnUiThread(new Runnable() {
+            public void run() {
+                TextView tv = findViewById(R.id.high_score3_tv);
+                tv.setText("High score: " + highScore);
+                Log.i("HIGH SCORE", "High score: " + highScore);
+            }
+        });
 
         loseSound = soundPool.load(this, R.raw.lose, 1);
 
@@ -67,7 +82,7 @@ public class SimonReverse extends AppCompatActivity {
         yellowButton.setOnTouchListener(clicked);
         blueButton.setOnTouchListener(clicked);
 
-
+        //start the game:
         playGame();
 
     }
@@ -97,7 +112,7 @@ public class SimonReverse extends AppCompatActivity {
                     soundPool.play(loseSound, 1, 1, 1, 0, 1f);
 
                     AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(SimonReverse.this);
-                    alertDialogBuilder.setMessage("GAME OVER, your score was " + currentScore);
+                    alertDialogBuilder.setMessage("GAME OVER!  your score was " + currentScore);
                     alertDialogBuilder.setPositiveButton("Ok",
                             new DialogInterface.OnClickListener() {
                                 @Override
@@ -110,8 +125,10 @@ public class SimonReverse extends AppCompatActivity {
 
                     AlertDialog alertDialog = alertDialogBuilder.create();
                     alertDialog.show();
+                    alertDialog.getWindow().getDecorView().getBackground().setColorFilter(new LightingColorFilter(0x00000000, 0x00EAF2F8));
 
                     return true;
+
                 }
                 //if the user gets its right
                 Sound.makeSound(context, v.getId());
@@ -128,6 +145,10 @@ public class SimonReverse extends AppCompatActivity {
                     numberOfClicksEachLevel = 0;
                     if (numItemsInArray > highScore) {
                         highScore = numItemsInArray;
+                        SharedPreferences highScores = getSharedPreferences("GET_HIGH_SCORE", Context.MODE_PRIVATE);
+                        SharedPreferences.Editor editor = highScores.edit();
+                        editor.putInt("HIGH_SCORE", highScore);
+                        editor.commit();
                         textView.setText("High score: " + highScore);
 
                     }
@@ -148,17 +169,22 @@ public class SimonReverse extends AppCompatActivity {
         addToArray();
         numItemsInArray++;
 
-        //moves = reverse(moves, moves.length);
         for (int i = 0; i < numItemsInArray; i++) {
             simonClick(i);
+            if (isSimonClick) {
+                for (int k = 0; k < button_ids.length; k++) {
+                    ImageButton imageButton = findViewById(button_ids[i]);
+                    imageButton.setFocusableInTouchMode(false);
+                }
+            }
+            isSimonClick = false;
         }
+
         //Vector<Integer> userPattern = new Vector<>(size);
         //Collections.copy(userPattern, simonPattern);
         //userPattern = (Vector)simonPattern.clone();
-        Enumeration enu = simonPattern.elements();
-        // int k=0;
+
         for (int i = 0; i < simonPattern.size(); i++) {
-            //k = simonPattern.get(i);
             userPattern.add(simonPattern.get(i));
         }
         reversePattern();
@@ -166,81 +192,47 @@ public class SimonReverse extends AppCompatActivity {
 
     private void addToArray() {  // add random number to the first free position in the array
         for (int i = 0; i < CAPACITY; i++) {
-            //if (moves[i] == 0) {
-            //if (simonPattern.get(i) == 0) {
-            simonPattern.add(random());
-            //moves[i] = random();
+            simonPattern.add(Sound.random(4));
             break;
             // }
 
         }
     }
 
+    // this method reverse the userPattern vector:
     private void reversePattern() {
 
         Collections.reverse(userPattern);
 
     }
 
-    private int[] reverse(int[] moves, int s) {
-
-        for (int i = 0; i < s / 2; i++) {
-            int t = moves[i];
-            moves[i] = moves[s - i - 1];
-            moves[s - i - 1] = t;
-
-        }
-        for (int k = 0; k < s; k++) {
-            Log.i("*************", "array " + moves[k]);
-        }
-        return moves;
-
-         /*   int[] reverse = new int[s];
-        int j = s;
-        for (int i = 0; i < s; i++) {
-            reverse[j - 1] = moves[i];
-            j = j - 1;
-        }*/
-
-
-    }
-
     public void simonClick(final int click_index) {
         final Runnable runnable = new Runnable() {
             public void run() {
-                //if (moves[click_index] == 1) {
                 if (simonPattern.get(click_index) == 1) {
                     Sound.makeSound(context, R.id.green_im);
                     Sound.lightUp(greenButton);
-
-                    // } else if (moves[click_index] == 2)
+                    isSimonClick = true;
                 } else if (simonPattern.get(click_index) == 2) {
                     Sound.makeSound(context, R.id.red_ib);
                     Sound.lightUp(redButton);
-                    // } else if (moves[click_index] == 3) {
+                    isSimonClick = true;
                 } else if (simonPattern.get(click_index) == 3) {
                     Sound.makeSound(context, R.id.yellow_ib);
                     Sound.lightUp(yellowButton);
+                    isSimonClick = true;
                 } else {
                     Sound.makeSound(context, R.id.blue_ib);
                     Sound.lightUp(blueButton);
+                    isSimonClick = true;
                 }
-                for (int i = 0; i < button_ids.length; i++) {
-                    ImageButton imageButton = findViewById(button_ids[i]);
-                    imageButton.setClickable(false);
-                }
+
             }
         };
 
         handler.postDelayed(runnable, (1500) * click_index);
 
     }
-
-
-    private int random() {
-        return rand.nextInt(4) + 1; // generate a random number between 1 and 4
-    }
-
 
     class AboutListener implements View.OnClickListener {
         @Override
@@ -261,7 +253,7 @@ public class SimonReverse extends AppCompatActivity {
 
             AlertDialog dialog = builder.create();
             dialog.show();
-            dialog.getWindow().getDecorView().getBackground().setColorFilter(new LightingColorFilter(0xFF000000,0xFFD5D8DC));
+            dialog.getWindow().getDecorView().getBackground().setColorFilter(new LightingColorFilter(0xFF000000, 0xFFD5D8DC));
 
 
             TextView tv = dialog.findViewById(android.R.id.message); // sets html in TV
@@ -274,6 +266,9 @@ public class SimonReverse extends AppCompatActivity {
         super.onSaveInstanceState(outState);
 
         outState.putInt("highScore", highScore);
+    }
+
+    private class Bool {
     }
 }
 
