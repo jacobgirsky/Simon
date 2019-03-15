@@ -114,42 +114,42 @@ public class SimonOriginal extends AppCompatActivity {
 
                     AlertDialog alertDialog = alertDialogBuilder.create();
                     alertDialog.show();
-                    alertDialog.getWindow().getDecorView().getBackground().setColorFilter(new LightingColorFilter(0x00000000,0x00EAF2F8 ));
+                    alertDialog.getWindow().getDecorView().getBackground().setColorFilter(new LightingColorFilter(0x00000000, 0x00EAF2F8));
 
 
                     return true;
                 }
                 //if the user gets its right
-                    Sound.makeSound(context,v.getId());
-                    Sound.lightUp(v);
-                    numberOfClicksEachLevel++;
-                    final TextView tv = findViewById(R.id.current_score_tv);
-                    TextView textView = findViewById(R.id.high_score_tv);
+                Sound.makeSound(context, v.getId());
+                Sound.lightUp(v);
+                numberOfClicksEachLevel++;
+                final TextView tv = findViewById(R.id.current_score_tv);
+                TextView textView = findViewById(R.id.high_score_tv);
 
-                    if (numItemsInArray == numberOfClicksEachLevel) {
+                if (numItemsInArray == numberOfClicksEachLevel) {
 
-                        currentScore++;
-                        tv.setText("Current score: " + currentScore);
+                    currentScore++;
+                    tv.setText("Current score: " + currentScore);
 
-                        numberOfClicksEachLevel = 0;
-                        if (numItemsInArray > highScore) {
-                            highScore = numItemsInArray;
-                            SharedPreferences highScores = getSharedPreferences("GET_HIGH_SCORE", Context.MODE_PRIVATE);
-                            SharedPreferences.Editor editor = highScores.edit();
-                            editor.putInt("HIGH_SCORE", highScore);
-                            editor.commit();
+                    numberOfClicksEachLevel = 0;
+                    if (numItemsInArray > highScore) {
+                        highScore = numItemsInArray;
+                        SharedPreferences highScores = getSharedPreferences("GET_HIGH_SCORE", Context.MODE_PRIVATE);
+                        SharedPreferences.Editor editor = highScores.edit();
+                        editor.putInt("HIGH_SCORE", highScore);
+                        editor.commit();
 
-                            textView.setText("High score: " + highScore);
+                        textView.setText("High score: " + highScore);
 
-                        }
-                        final Runnable runnable = new Runnable() {
-                            public void run() {
-                                playGame();
-                            }
-                        };
-                        handler.postDelayed(runnable, 1500);
                     }
+                    final Runnable runnable = new Runnable() {
+                        public void run() {
+                            playGame();
+                        }
+                    };
+                    handler.postDelayed(runnable, 1500);
                 }
+            }
 
             return true;
         }
@@ -168,16 +168,16 @@ public class SimonOriginal extends AppCompatActivity {
         final Runnable runnable = new Runnable() {
             public void run() {
                 if (moves[click_index] == 1) {
-                   Sound.makeSound(context,R.id.green_im);
+                    Sound.makeSound(context, R.id.green_im);
                     Sound.lightUp(greenButton);
                 } else if (moves[click_index] == 2) {
-                    Sound.makeSound(context,R.id.red_ib);
+                    Sound.makeSound(context, R.id.red_ib);
                     Sound.lightUp(redButton);
                 } else if (moves[click_index] == 3) {
-                    Sound.makeSound(context,R.id.yellow_ib);
+                    Sound.makeSound(context, R.id.yellow_ib);
                     Sound.lightUp(yellowButton);
                 } else {
-                    Sound.makeSound(context,R.id.blue_ib);
+                    Sound.makeSound(context, R.id.blue_ib);
                     Sound.lightUp(blueButton);
                 }
             }
@@ -212,7 +212,7 @@ public class SimonOriginal extends AppCompatActivity {
 
             AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
             builder.setMessage(Html.fromHtml(message));
-            builder.setPositiveButton("OK" , null);
+            builder.setPositiveButton("OK", null);
 
             AlertDialog dialog = builder.create();
             dialog.show();

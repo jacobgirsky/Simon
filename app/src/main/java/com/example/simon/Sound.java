@@ -34,7 +34,7 @@ public class Sound extends Activity {
         } else if (soundID == R.id.blue_ib) {
             sound.setSound(R.raw.bluebutton);
         } else if (soundID == R.id.teal_ib) {
-        sound.setSound(R.raw.tealbutton);
+            sound.setSound(R.raw.tealbutton);
         } else {
             sound.setSound(R.raw.purplebutton);
         }

@@ -127,7 +127,7 @@ public class SimonPlus extends AppCompatActivity {
                     return true;
                 }
                 //if the user gets its right
-                Sound.makeSound(context,v.getId());
+                Sound.makeSound(context, v.getId());
                 Sound.lightUp(v);
                 numberOfClicksEachLevel++;
                 final TextView tv = findViewById(R.id.current_score_tv);
@@ -175,22 +175,22 @@ public class SimonPlus extends AppCompatActivity {
         final Runnable runnable = new Runnable() {
             public void run() {
                 if (moves[click_index] == 1) {
-                    Sound.makeSound(context,R.id.green_im);
+                    Sound.makeSound(context, R.id.green_im);
                     Sound.lightUp(greenButton);
                 } else if (moves[click_index] == 2) {
-                    Sound.makeSound(context,R.id.red_ib);
+                    Sound.makeSound(context, R.id.red_ib);
                     Sound.lightUp(redButton);
                 } else if (moves[click_index] == 3) {
-                    Sound.makeSound(context,R.id.yellow_ib);
+                    Sound.makeSound(context, R.id.yellow_ib);
                     Sound.lightUp(yellowButton);
                 } else if (moves[click_index] == 4) {
-                    Sound.makeSound(context,R.id.blue_ib);
+                    Sound.makeSound(context, R.id.blue_ib);
                     Sound.lightUp(blueButton);
                 } else if (moves[click_index] == 5) {
-                    Sound.makeSound(context,R.id.teal_ib);
+                    Sound.makeSound(context, R.id.teal_ib);
                     Sound.lightUp(tealButton);
                 } else {
-                    Sound.makeSound(context,R.id.purple_ib);
+                    Sound.makeSound(context, R.id.purple_ib);
                     Sound.lightUp(purpleButton);
                 }
             }
@@ -225,7 +225,7 @@ public class SimonPlus extends AppCompatActivity {
 
             AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
             builder.setMessage(Html.fromHtml(message));
-            builder.setPositiveButton("OK" , null);
+            builder.setPositiveButton("OK", null);
 
             AlertDialog dialog = builder.create();
             dialog.show();
