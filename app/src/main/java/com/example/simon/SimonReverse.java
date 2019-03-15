@@ -249,8 +249,6 @@ public class SimonReverse extends AppCompatActivity {
 
             AlertDialog dialog = builder.create();
             dialog.show();
-            dialog.getWindow().getDecorView().getBackground().setColorFilter(new LightingColorFilter(0xFF000000, 0xFFD5D8DC));
-
 
             TextView tv = dialog.findViewById(android.R.id.message); // sets html in TV
             tv.setMovementMethod(LinkMovementMethod.getInstance());

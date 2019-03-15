@@ -28,19 +28,26 @@
         android:id="@+id/blue_ib"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="164dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="84dp"
         android:background="@null"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/yellow_ib"
+        app:layout_constraintTop_toBottomOf="@+id/red_ib"
+        app:layout_constraintVertical_bias="0.0"
         app:srcCompat="@drawable/blue" />
 
     <ImageButton
         android:id="@+id/red_ib"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="160dp"
         android:background="@null"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/green_im"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/red" />
 
@@ -49,10 +56,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginBottom="164dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="52dp"
         android:background="@null"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/green_im"
+        app:layout_constraintVertical_bias="0.0"
         app:srcCompat="@drawable/yellow" />
 
     <ImageButton
