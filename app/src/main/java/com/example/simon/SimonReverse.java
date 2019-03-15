@@ -32,7 +32,6 @@ public class SimonReverse extends AppCompatActivity {
     final int CAPACITY = 500;
     int moves[] = new int[CAPACITY];
     Vector<Integer> simonPattern = new Vector<>();
-    // Object userPattern;
     Vector<Integer> userPattern = new Vector<>();
     int currentScore = 0, highScore;
     int numItemsInArray = 0, numberOfClicksEachLevel = 0, loseSound;
@@ -160,17 +159,14 @@ public class SimonReverse extends AppCompatActivity {
         addToArray();
         numItemsInArray++;
 
-        //moves = reverse(moves, moves.length);
         for (int i = 0; i < numItemsInArray; i++) {
             simonClick(i);
         }
         //Vector<Integer> userPattern = new Vector<>(size);
         //Collections.copy(userPattern, simonPattern);
         //userPattern = (Vector)simonPattern.clone();
-        Enumeration enu = simonPattern.elements();
-        // int k=0;
+
         for (int i = 0; i < simonPattern.size(); i++) {
-            //k = simonPattern.get(i);
             userPattern.add(simonPattern.get(i));
         }
         reversePattern();
@@ -181,39 +177,15 @@ public class SimonReverse extends AppCompatActivity {
             //if (moves[i] == 0) {
             //if (simonPattern.get(i) == 0) {
             simonPattern.add(random());
-            //moves[i] = random();
             break;
             // }
 
         }
     }
-
+    // this method reverse the userPattern vector:
     private void reversePattern() {
 
         Collections.reverse(userPattern);
-
-    }
-
-    private int[] reverse(int[] moves, int s) {
-
-        for (int i = 0; i < s / 2; i++) {
-            int t = moves[i];
-            moves[i] = moves[s - i - 1];
-            moves[s - i - 1] = t;
-
-        }
-        for (int k = 0; k < s; k++) {
-            Log.i("*************", "array " + moves[k]);
-        }
-        return moves;
-
-         /*   int[] reverse = new int[s];
-        int j = s;
-        for (int i = 0; i < s; i++) {
-            reverse[j - 1] = moves[i];
-            j = j - 1;
-        }*/
-
 
     }
 
