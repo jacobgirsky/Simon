@@ -103,8 +103,10 @@ public class SimonOriginal extends AppCompatActivity {
                         break;
                 }
 
+
                 if (moves[numberOfClicksEachLevel] != x) { // If the user gets it wrong
                     soundPool.play(loseSound, 1, 1, 1, 0, 1f);
+                    
 
                     AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(SimonOriginal.this);
                     String message = "<html>" +
@@ -129,6 +131,7 @@ public class SimonOriginal extends AppCompatActivity {
                     return true;
                 }
                 //if the user gets its right
+
                 Sound.makeSound(context, v.getId());
                 Sound.lightUp(v);
                 numberOfClicksEachLevel++;
@@ -195,14 +198,14 @@ public class SimonOriginal extends AppCompatActivity {
                 } else if (moves[click_index] == 3) {
                     Sound.makeSound(context, R.id.yellow_ib);
                     Sound.lightUp(yellowButton);
-                } else {
+                } else if (moves[click_index] == 4) {
                     Sound.makeSound(context, R.id.blue_ib);
                     Sound.lightUp(blueButton);
                 }
             }
         };
 
-        handler.postDelayed(runnable, (1500) * click_index);
+        handler.postDelayed(runnable, (1300) * click_index);
 
     }
 
