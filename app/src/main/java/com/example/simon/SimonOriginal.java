@@ -106,7 +106,7 @@ public class SimonOriginal extends AppCompatActivity {
 
                 if (moves[numberOfClicksEachLevel] != x) { // If the user gets it wrong
                     soundPool.play(loseSound, 1, 1, 1, 0, 1f);
-                    
+
 
                     AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(SimonOriginal.this);
                     String message = "<html>" +
