@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#353a3d"
-    tools:context=".Game2Activity">
+    tools:context=".SimonPlus">
 
 
     <ImageButton
@@ -88,7 +88,7 @@
         app:srcCompat="@drawable/questionmark" />
 
     <ImageButton
-        android:id="@+id/imageButton"
+        android:id="@+id/teal_ib"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -99,7 +99,7 @@
         app:srcCompat="@drawable/teal" />
 
     <ImageButton
-        android:id="@+id/imageButton2"
+        android:id="@+id/purple_ib"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="80dp"

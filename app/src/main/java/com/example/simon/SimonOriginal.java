@@ -3,12 +3,10 @@ package com.example.simon;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.LightingColorFilter;
+import android.content.SharedPreferences;
 import android.media.AudioManager;
-import android.media.MediaPlayer;
 import android.media.SoundPool;
 import android.os.Handler;
-import android.support.annotation.IntRange;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -17,48 +15,42 @@ import android.text.method.LinkMovementMethod;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.animation.AlphaAnimation;
-import android.view.animation.Animation;
-import android.view.animation.LinearInterpolator;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Enumeration;
-import java.util.List;
 import java.util.Random;
-import java.util.Vector;
 
-public class Game3Activity extends AppCompatActivity {
+public class SimonOriginal extends AppCompatActivity {
     Context context;
     ImageButton greenButton, redButton, yellowButton, blueButton;
-    int[] button_ids = new int[]{R.id.blue_ib, R.id.red_ib, R.id.green_im, R.id.yellow_ib};
     int x;
     final int CAPACITY = 500;
     int moves[] = new int[CAPACITY];
-    Vector<Integer> simonPattern = new Vector<>();
-    // Object userPattern;
-    Vector<Integer> userPattern = new Vector<>();
     int currentScore = 0, highScore;
     int numItemsInArray = 0, numberOfClicksEachLevel = 0, loseSound;
     public SoundPool soundPool = new SoundPool(10, AudioManager.STREAM_MUSIC, 0);
-    Random rand = new Random();
     final Handler handler = new Handler();
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_game3);
+        setContentView(R.layout.activity_game1);
 
         context = getApplicationContext();
+        // saves the high score
+        SharedPreferences prefs = this.getSharedPreferences("GET_HIGH_SCORE", Context.MODE_PRIVATE);
+        highScore = prefs.getInt("HIGH_SCORE", 0);
 
-        if (savedInstanceState == null) {
-            highScore = 0;
-        } else {
-            highScore = savedInstanceState.getInt("highScore", 0);
-        }
+        // updates the textview for the high score
+        runOnUiThread(new Runnable() {
+            public void run() {
+                TextView tv = findViewById(R.id.high_score_tv);
+                tv.setText("High score: " + highScore);
+                Log.i("HIGH SCORE", "High score: " + highScore);
+            }
+        });
+
 
         loseSound = soundPool.load(this, R.raw.lose, 1);
 
@@ -77,6 +69,12 @@ public class Game3Activity extends AppCompatActivity {
 
         playGame();
 
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        finish();
     }
 
     View.OnTouchListener clicked = new View.OnTouchListener() {
@@ -99,17 +97,15 @@ public class Game3Activity extends AppCompatActivity {
                         break;
                 }
 
-                //  if (moves[numberOfClicksEachLevel] != x) { // If the user gets it wrong
-                if (userPattern.get(numberOfClicksEachLevel) != x) {
+                if (moves[numberOfClicksEachLevel] != x) { // If the user gets it wrong
                     soundPool.play(loseSound, 1, 1, 1, 0, 1f);
 
-                    AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(Game3Activity.this);
+                    AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(SimonOriginal.this);
                     alertDialogBuilder.setMessage("GAME OVER, your score was " + currentScore);
                     alertDialogBuilder.setPositiveButton("Ok",
                             new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface arg0, int arg1) {
-                                    finish();
                                     Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                                     startActivity(intent);
                                 }
@@ -121,31 +117,36 @@ public class Game3Activity extends AppCompatActivity {
                     return true;
                 }
                 //if the user gets its right
-                Sound.makeSound(context, v.getId());
-                Sound.lightUp(v);
-                numberOfClicksEachLevel++;
-                final TextView tv = findViewById(R.id.current_score_tv);
-                TextView textView = findViewById(R.id.high_score_tv);
+                    Sound.makeSound(context,v.getId());
+                    Sound.lightUp(v);
+                    numberOfClicksEachLevel++;
+                    final TextView tv = findViewById(R.id.current_score_tv);
+                    TextView textView = findViewById(R.id.high_score_tv);
 
-                if (numItemsInArray == numberOfClicksEachLevel) {
+                    if (numItemsInArray == numberOfClicksEachLevel) {
 
-                    currentScore++;
-                    tv.setText("Current score: " + currentScore);
+                        currentScore++;
+                        tv.setText("Current score: " + currentScore);
 
-                    numberOfClicksEachLevel = 0;
-                    if (numItemsInArray > highScore) {
-                        highScore = numItemsInArray;
-                        textView.setText("High score: " + highScore);
+                        numberOfClicksEachLevel = 0;
+                        if (numItemsInArray > highScore) {
+                            highScore = numItemsInArray;
+                            SharedPreferences highScores = getSharedPreferences("GET_HIGH_SCORE", Context.MODE_PRIVATE);
+                            SharedPreferences.Editor editor = highScores.edit();
+                            editor.putInt("HIGH_SCORE", highScore);
+                            editor.commit();
 
-                    }
-                    final Runnable runnable = new Runnable() {
-                        public void run() {
-                            playGame();
+                            textView.setText("High score: " + highScore);
+
                         }
-                    };
-                    handler.postDelayed(runnable, 1500);
+                        final Runnable runnable = new Runnable() {
+                            public void run() {
+                                playGame();
+                            }
+                        };
+                        handler.postDelayed(runnable, 1500);
+                    }
                 }
-            }
 
             return true;
         }
@@ -154,87 +155,27 @@ public class Game3Activity extends AppCompatActivity {
     public void playGame() {
         addToArray();
         numItemsInArray++;
-
-        //moves = reverse(moves, moves.length);
         for (int i = 0; i < numItemsInArray; i++) {
             simonClick(i);
         }
-        //Vector<Integer> userPattern = new Vector<>(size);
-        //Collections.copy(userPattern, simonPattern);
-        //userPattern = (Vector)simonPattern.clone();
-        Enumeration enu = simonPattern.elements();
-        // int k=0;
-        for (int i = 0; i < simonPattern.size(); i++) {
-            //k = simonPattern.get(i);
-            userPattern.add(simonPattern.get(i));
-        }
-        reversePattern();
-    }
-
-    private void addToArray() {  // add random number to the first free position in the array
-        for (int i = 0; i < CAPACITY; i++) {
-            //if (moves[i] == 0) {
-            //if (simonPattern.get(i) == 0) {
-            simonPattern.add(random());
-            //moves[i] = random();
-            break;
-            // }
-
-        }
-    }
-
-    private void reversePattern() {
-
-        Collections.reverse(userPattern);
-
-    }
-
-    private int[] reverse(int[] moves, int s) {
-
-        for (int i = 0; i < s / 2; i++) {
-            int t = moves[i];
-            moves[i] = moves[s - i - 1];
-            moves[s - i - 1] = t;
-
-        }
-        for (int k = 0; k < s; k++) {
-            Log.i("*************", "array " + moves[k]);
-        }
-        return moves;
-
-         /*   int[] reverse = new int[s];
-        int j = s;
-        for (int i = 0; i < s; i++) {
-            reverse[j - 1] = moves[i];
-            j = j - 1;
-        }*/
-
 
     }
 
     public void simonClick(final int click_index) {
         final Runnable runnable = new Runnable() {
             public void run() {
-                //if (moves[click_index] == 1) {
-                if (simonPattern.get(click_index) == 1) {
-                    Sound.makeSound(context, R.id.green_im);
+                if (moves[click_index] == 1) {
+                   Sound.makeSound(context,R.id.green_im);
                     Sound.lightUp(greenButton);
-
-                    // } else if (moves[click_index] == 2)
-                } else if (simonPattern.get(click_index) == 2) {
-                    Sound.makeSound(context, R.id.red_ib);
+                } else if (moves[click_index] == 2) {
+                    Sound.makeSound(context,R.id.red_ib);
                     Sound.lightUp(redButton);
-                    // } else if (moves[click_index] == 3) {
-                } else if (simonPattern.get(click_index) == 3) {
-                    Sound.makeSound(context, R.id.yellow_ib);
+                } else if (moves[click_index] == 3) {
+                    Sound.makeSound(context,R.id.yellow_ib);
                     Sound.lightUp(yellowButton);
                 } else {
-                    Sound.makeSound(context, R.id.blue_ib);
+                    Sound.makeSound(context,R.id.blue_ib);
                     Sound.lightUp(blueButton);
-                }
-                for (int i = 0; i < button_ids.length; i++) {
-                    ImageButton imageButton = findViewById(button_ids[i]);
-                    imageButton.setClickable(false);
                 }
             }
         };
@@ -243,11 +184,15 @@ public class Game3Activity extends AppCompatActivity {
 
     }
 
+    private void addToArray() {  // add random number to the first free position in the array
+        for (int i = 0; i < CAPACITY; i++) {
+            if (moves[i] == 0) {
+                moves[i] = Sound.random(4);
+                break;
+            }
 
-    private int random() {
-        return rand.nextInt(4) + 1; // generate a random number between 1 and 4
+        }
     }
-
 
     class AboutListener implements View.OnClickListener {
         @Override
@@ -264,24 +209,16 @@ public class Game3Activity extends AppCompatActivity {
 
             AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
             builder.setMessage(Html.fromHtml(message));
-            builder.setPositiveButton("OK", null);
+            builder.setPositiveButton("OK" , null);
 
             AlertDialog dialog = builder.create();
             dialog.show();
-            dialog.getWindow().getDecorView().getBackground().setColorFilter(new LightingColorFilter(0xFF000000,0xFFD5D8DC));
-
 
             TextView tv = dialog.findViewById(android.R.id.message); // sets html in TV
             tv.setMovementMethod(LinkMovementMethod.getInstance());
         }
     }
 
-    @Override
-    protected void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-
-        outState.putInt("highScore", highScore);
-    }
 }
 
 

@@ -8,6 +8,8 @@ import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.animation.LinearInterpolator;
 
+import java.util.Random;
+
 public class Sound extends Activity {
     private int sound;
 
@@ -31,6 +33,10 @@ public class Sound extends Activity {
             sound.setSound(R.raw.yellowbutton);
         } else if (soundID == R.id.blue_ib) {
             sound.setSound(R.raw.bluebutton);
+        } else if (soundID == R.id.teal_ib) {
+        sound.setSound(R.raw.tealbutton);
+        } else {
+            sound.setSound(R.raw.purplebutton);
         }
 
         sound.startMediaPlayer(context, sound.getSound());
@@ -40,7 +46,7 @@ public class Sound extends Activity {
 
     public void startMediaPlayer(Context context, int audioRes) {
 
-        MediaPlayer mediaPlayer = (MediaPlayer) MediaPlayer.create(context, audioRes);
+        MediaPlayer mediaPlayer = MediaPlayer.create(context, audioRes);
         mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
             @Override
             public void onCompletion(MediaPlayer mp) {
@@ -56,5 +62,14 @@ public class Sound extends Activity {
         mAnimation.setInterpolator(new LinearInterpolator());
         v.startAnimation(mAnimation);
     }
+
+    public static int random(int random) {
+        Random rand = new Random();
+        return rand.nextInt(random) + 1; // generate a random number between 1 and 4
+    }
+
+
 }
+
+
 
