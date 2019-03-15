@@ -128,6 +128,7 @@ public class SimonOriginal extends AppCompatActivity {
                     TextView tv = dialog.findViewById(android.R.id.message); // sets html in TV
                     tv.setMovementMethod(LinkMovementMethod.getInstance());
 
+
                     return true;
                 }
                 //if the user gets its right
