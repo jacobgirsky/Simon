@@ -37,6 +37,15 @@ public class SimonOriginal extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game1);
+        // add a colorful text to the title_text view with html
+        TextView title_tv = findViewById(R.id.title1_tv);
+        String text = "<font color=#cc0029>S</font><font color=#ffcc00>I</font>" +
+                "<font color=#00B2EE>M</font><font color=#00ff00>O</font>" +
+                "<font color=#ffcc00>N</font>" + "<font color=#cc0029> O</font><font color=#ffcc00>R</font>" +
+                "<font color=#00B2EE>I</font><font color=#00ff00>G</font>" +
+                "<font color=#ffcc00>I</font><font color=#cc0029>N</font>"+
+                "<font color=#cc0029>A</font><font color=#ffcc00>L</font>";
+        title_tv.setText(Html.fromHtml(text));
 
         context = getApplicationContext();
         // saves the high score
@@ -102,7 +111,7 @@ public class SimonOriginal extends AppCompatActivity {
                     soundPool.play(loseSound, 1, 1, 1, 0, 1f);
 
                     AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(SimonOriginal.this);
-                    alertDialogBuilder.setMessage("GAME OVER, your score was " + currentScore);
+                    alertDialogBuilder.setMessage("GAME OVER!  your score was " + currentScore);
                     alertDialogBuilder.setPositiveButton("Ok",
                             new DialogInterface.OnClickListener() {
                                 @Override

@@ -45,6 +45,15 @@ public class SimonReverse extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game3);
 
+        // add a colorful text to the title_text view with html
+        TextView title_tv = findViewById(R.id.title_tv);
+        String text = "<font color=#cc0029>S</font><font color=#ffcc00>I</font>" +
+                "<font color=#00B2EE>M</font><font color=#00ff00>O</font>" +
+                "<font color=#ffcc00>N</font>" + "<font color=#cc0029> R</font><font color=#ffcc00>E</font>" +
+                "<font color=#00B2EE>W</font><font color=#00ff00>I</font>" +
+                "<font color=#ffcc00>N</font><font color=#cc0029>D</font>";
+        title_tv.setText(Html.fromHtml(text));
+
         context = getApplicationContext();
         // saves the high score
         SharedPreferences prefs = this.getSharedPreferences("GET_HIGH_SCORE", Context.MODE_PRIVATE);
@@ -53,7 +62,7 @@ public class SimonReverse extends AppCompatActivity {
         // updates the textview for the high score
         runOnUiThread(new Runnable() {
             public void run() {
-                TextView tv = findViewById(R.id.high_score_tv);
+                TextView tv = findViewById(R.id.high_score3_tv);
                 tv.setText("High score: " + highScore);
                 Log.i("HIGH SCORE", "High score: " + highScore);
             }
@@ -103,7 +112,7 @@ public class SimonReverse extends AppCompatActivity {
                     soundPool.play(loseSound, 1, 1, 1, 0, 1f);
 
                     AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(SimonReverse.this);
-                    alertDialogBuilder.setMessage("GAME OVER, your score was " + currentScore);
+                    alertDialogBuilder.setMessage("GAME OVER!  your score was " + currentScore);
                     alertDialogBuilder.setPositiveButton("Ok",
                             new DialogInterface.OnClickListener() {
                                 @Override
@@ -116,6 +125,7 @@ public class SimonReverse extends AppCompatActivity {
 
                     AlertDialog alertDialog = alertDialogBuilder.create();
                     alertDialog.show();
+                    alertDialog.getWindow().getDecorView().getBackground().setColorFilter(new LightingColorFilter(0x00000000, 0x00EAF2F8));
 
                     return true;
 
@@ -223,7 +233,7 @@ public class SimonReverse extends AppCompatActivity {
         handler.postDelayed(runnable, (1500) * click_index);
 
     }
-    
+
     class AboutListener implements View.OnClickListener {
         @Override
         public void onClick(View v) {

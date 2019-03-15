@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.LightingColorFilter;
 import android.media.AudioManager;
 import android.media.SoundPool;
 import android.os.Handler;
@@ -45,7 +46,7 @@ public class SimonPlus extends AppCompatActivity {
         // updates the textview for the high score
         runOnUiThread(new Runnable() {
             public void run() {
-                TextView tv = findViewById(R.id.high_score_tv);
+                TextView tv = findViewById(R.id.high_score2_tv);
                 tv.setText("High score: " + highScore);
                 Log.i("HIGH SCORE", "High score: " + highScore);
             }
@@ -111,7 +112,7 @@ public class SimonPlus extends AppCompatActivity {
                     soundPool.play(loseSound, 1, 1, 1, 0, 1f);
 
                     AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(SimonPlus.this);
-                    alertDialogBuilder.setMessage("GAME OVER, your score was " + currentScore);
+                    alertDialogBuilder.setMessage("GAME OVER!  your score was " + currentScore);
                     alertDialogBuilder.setPositiveButton("Ok",
                             new DialogInterface.OnClickListener() {
                                 @Override
@@ -123,6 +124,7 @@ public class SimonPlus extends AppCompatActivity {
 
                     AlertDialog alertDialog = alertDialogBuilder.create();
                     alertDialog.show();
+                    alertDialog.getWindow().getDecorView().getBackground().setColorFilter(new LightingColorFilter(0x00000000, 0x00EAF2F8));
 
                     return true;
                 }
