@@ -47,9 +47,7 @@ public class SimonReverse extends AppCompatActivity {
 
         // add a colorful text to the title_text view with html
         TextView title_tv = findViewById(R.id.title_tv);
-        String text = "<font color=#cc0029>S</font><font color=#ffcc00>I</font>" +
-                "<font color=#00B2EE>M</font><font color=#00ff00>O</font>" +
-                "<font color=#ffcc00>N</font>" + "<font color=#cc0029> R</font><font color=#ffcc00>E</font>" +
+        String text = "<font color=#cc0029> R</font><font color=#ffcc00>E</font>" +
                 "<font color=#00B2EE>W</font><font color=#00ff00>I</font>" +
                 "<font color=#ffcc00>N</font><font color=#cc0029>D</font>";
         title_tv.setText(Html.fromHtml(text));
