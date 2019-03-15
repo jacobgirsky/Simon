@@ -3,6 +3,7 @@ package com.example.simon;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.LightingColorFilter;
 import android.media.AudioManager;
 import android.media.SoundPool;
@@ -46,12 +47,18 @@ public class SimonReverse extends AppCompatActivity {
         setContentView(R.layout.activity_game3);
 
         context = getApplicationContext();
+        // saves the high score
+        SharedPreferences prefs = this.getSharedPreferences("GET_HIGH_SCORE", Context.MODE_PRIVATE);
+        highScore = prefs.getInt("HIGH_SCORE", 0);
 
-        if (savedInstanceState == null) {
-            highScore = 0;
-        } else {
-            highScore = savedInstanceState.getInt("highScore", 0);
-        }
+        // updates the textview for the high score
+        runOnUiThread(new Runnable() {
+            public void run() {
+                TextView tv = findViewById(R.id.high_score_tv);
+                tv.setText("High score: " + highScore);
+                Log.i("HIGH SCORE", "High score: " + highScore);
+            }
+        });
 
         loseSound = soundPool.load(this, R.raw.lose, 1);
 
@@ -112,6 +119,7 @@ public class SimonReverse extends AppCompatActivity {
                     alertDialog.show();
 
                     return true;
+
                 }
                 //if the user gets its right
                 Sound.makeSound(context, v.getId());
@@ -128,6 +136,10 @@ public class SimonReverse extends AppCompatActivity {
                     numberOfClicksEachLevel = 0;
                     if (numItemsInArray > highScore) {
                         highScore = numItemsInArray;
+                        SharedPreferences highScores = getSharedPreferences("GET_HIGH_SCORE", Context.MODE_PRIVATE);
+                        SharedPreferences.Editor editor = highScores.edit();
+                        editor.putInt("HIGH_SCORE", highScore);
+                        editor.commit();
                         textView.setText("High score: " + highScore);
 
                     }

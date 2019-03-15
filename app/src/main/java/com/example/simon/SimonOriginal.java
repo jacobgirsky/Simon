@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.LightingColorFilter;
 import android.media.AudioManager;
 import android.media.SoundPool;
 import android.os.Handler;
@@ -113,6 +114,8 @@ public class SimonOriginal extends AppCompatActivity {
 
                     AlertDialog alertDialog = alertDialogBuilder.create();
                     alertDialog.show();
+                    alertDialog.getWindow().getDecorView().getBackground().setColorFilter(new LightingColorFilter(0x00000000,0x00EAF2F8 ));
+
 
                     return true;
                 }
@@ -204,7 +207,7 @@ public class SimonOriginal extends AppCompatActivity {
                     " chooses another button. You must hit those two buttons in the correct order. Simon " +
                     "keeps adding buttons growing the pattern, and you must keep pressing all the buttons, " +
                     "until you hit a wrong button.</p>" +
-                    "</html>"; // need to fix html
+                    "</html>";
 
 
             AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
