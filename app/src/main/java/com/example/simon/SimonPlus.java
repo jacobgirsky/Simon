@@ -28,7 +28,7 @@ public class SimonPlus extends AppCompatActivity {
     final int CAPACITY = 500;
     int moves[] = new int[CAPACITY];
     int currentScore = 0, highScore;
-    int numItemsInArray = 0, numberOfClicksEachLevel = 0, loseSound;
+    int numItemsInArray = 0, numberOfClicks = 0, loseSound;
     public SoundPool soundPool = new SoundPool(10, AudioManager.STREAM_MUSIC, 0);
     final Handler handler = new Handler();
 
@@ -108,11 +108,13 @@ public class SimonPlus extends AppCompatActivity {
                         break;
                 }
 
-                if (moves[numberOfClicksEachLevel] != x) { // If the user gets it wrong
+                if (moves[numberOfClicks] != x) { // If the user gets it wrong
                     soundPool.play(loseSound, 1, 1, 1, 0, 1f);
 
                     AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(SimonPlus.this);
-                    alertDialogBuilder.setMessage("GAME OVER!  your score was " + currentScore);
+                    String message = "<html>" +
+                            "<br><font color=#cc0029 size=><b>GAME OVER</b></font><br><br>" + "</html>";
+
                     alertDialogBuilder.setPositiveButton("Ok",
                             new DialogInterface.OnClickListener() {
                                 @Override
@@ -122,25 +124,29 @@ public class SimonPlus extends AppCompatActivity {
                                 }
                             });
 
-                    AlertDialog alertDialog = alertDialogBuilder.create();
-                    alertDialog.show();
-                    alertDialog.getWindow().getDecorView().getBackground().setColorFilter(new LightingColorFilter(0x00000000, 0x00EAF2F8));
+                    alertDialogBuilder.setMessage(Html.fromHtml(message + "your score was " + currentScore));
+                    AlertDialog dialog = alertDialogBuilder.create();
+                    dialog.getWindow().getDecorView().getBackground().setColorFilter(new LightingColorFilter(0x00000000, 0x00EAF2F8));
+                    dialog.show();
+
+                    TextView tv = dialog.findViewById(android.R.id.message); // sets html in TV
+                    tv.setMovementMethod(LinkMovementMethod.getInstance());
 
                     return true;
                 }
                 //if the user gets its right
                 Sound.makeSound(context, v.getId());
                 Sound.lightUp(v);
-                numberOfClicksEachLevel++;
+                numberOfClicks++;
                 final TextView tv = findViewById(R.id.current_score_tv);
                 TextView textView = findViewById(R.id.high_score_tv);
 
-                if (numItemsInArray == numberOfClicksEachLevel) {
+                if (numItemsInArray == numberOfClicks) {
 
                     currentScore++;
                     tv.setText("Current score: " + currentScore);
 
-                    numberOfClicksEachLevel = 0;
+                    numberOfClicks = 0;
                     if (numItemsInArray > highScore) {
                         highScore = numItemsInArray;
                         SharedPreferences highScores = getSharedPreferences("GET_HIGH_SCORE", Context.MODE_PRIVATE);
@@ -173,6 +179,16 @@ public class SimonPlus extends AppCompatActivity {
 
     }
 
+    private void addToArray() {  // add random number to the first free position in the array
+        for (int i = 0; i < CAPACITY; i++) {
+            if (moves[i] == 0) {
+                moves[i] = Sound.random(6);
+                break;
+            }
+
+        }
+    }
+
     public void simonClick(final int click_index) {
         final Runnable runnable = new Runnable() {
             public void run() {
@@ -198,18 +214,8 @@ public class SimonPlus extends AppCompatActivity {
             }
         };
 
-        handler.postDelayed(runnable, (1500) * click_index);
+        handler.postDelayed(runnable, (1300) * click_index);
 
-    }
-
-    private void addToArray() {  // add random number to the first free position in the array
-        for (int i = 0; i < CAPACITY; i++) {
-            if (moves[i] == 0) {
-                moves[i] = Sound.random(6);
-                break;
-            }
-
-        }
     }
 
     class AboutListener implements View.OnClickListener {

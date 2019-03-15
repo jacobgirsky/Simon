@@ -33,7 +33,7 @@ public class SimonReverse extends AppCompatActivity {
     Vector<Integer> simonPattern = new Vector<>();
     Vector<Integer> userPattern = new Vector<>();
     int currentScore = 0, highScore;
-    int numItemsInArray = 0, numberOfClicksEachLevel = 0, loseSound;
+    int numItemsInArray = 0, numberOfClicks = 0, loseSound;
     public SoundPool soundPool = new SoundPool(10, AudioManager.STREAM_MUSIC, 0);
     Random rand = new Random();
     final Handler handler = new Handler();
@@ -106,7 +106,7 @@ public class SimonReverse extends AppCompatActivity {
                 }
 
                 //  if (moves[numberOfClicksEachLevel] != x) { // If the user gets it wrong
-                if (userPattern.get(numberOfClicksEachLevel) != x) {
+                if (userPattern.get(numberOfClicks) != x) {
                     soundPool.play(loseSound, 1, 1, 1, 0, 1f);
 
                     AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(SimonReverse.this);
@@ -131,16 +131,16 @@ public class SimonReverse extends AppCompatActivity {
                 //if the user gets its right
                 Sound.makeSound(context, v.getId());
                 Sound.lightUp(v);
-                numberOfClicksEachLevel++;
+                numberOfClicks++;
                 final TextView tv = findViewById(R.id.current_score_tv);
                 TextView textView = findViewById(R.id.high_score_tv);
 
-                if (numItemsInArray == numberOfClicksEachLevel) {
+                if (numItemsInArray == numberOfClicks) {
 
                     currentScore++;
                     tv.setText("Current score: " + currentScore);
 
-                    numberOfClicksEachLevel = 0;
+                    numberOfClicks = 0;
                     if (numItemsInArray > highScore) {
                         highScore = numItemsInArray;
                         SharedPreferences highScores = getSharedPreferences("GET_HIGH_SCORE", Context.MODE_PRIVATE);
@@ -239,10 +239,10 @@ public class SimonReverse extends AppCompatActivity {
                     "<h2>How to Play</h2>" +
                     "<p>The game will randomly pick one of the four buttons, light it up, and play a " +
                     "sound. You must press the same button. Simon plays that button again, and then randomly" +
-                    " chooses another button. You must hit those two buttons in the correct order. Simon " +
+                    " chooses another button. You must hit those  buttons in the reverse order. Simon " +
                     "keeps adding buttons growing the pattern, and you must keep pressing all the buttons, " +
                     "until you hit a wrong button.</p>" +
-                    "</html>"; // need to fix html
+                    "</html>";
 
 
             AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
