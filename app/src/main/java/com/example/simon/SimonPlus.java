@@ -126,7 +126,6 @@ public class SimonPlus extends AppCompatActivity {
 
                     alertDialogBuilder.setMessage(Html.fromHtml(message + "your score was " + currentScore));
                     AlertDialog dialog = alertDialogBuilder.create();
-                    dialog.getWindow().getDecorView().getBackground().setColorFilter(new LightingColorFilter(0x00000000, 0x00EAF2F8));
                     dialog.show();
 
                     TextView tv = dialog.findViewById(android.R.id.message); // sets html in TV

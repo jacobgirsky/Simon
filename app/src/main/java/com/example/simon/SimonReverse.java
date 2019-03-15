@@ -104,13 +104,13 @@ public class SimonReverse extends AppCompatActivity {
                         x = 4;
                         break;
                 }
-
-                //  if (moves[numberOfClicksEachLevel] != x) { // If the user gets it wrong
+                // if the user gets it wrong:
                 if (userPattern.get(numberOfClicks) != x) {
                     soundPool.play(loseSound, 1, 1, 1, 0, 1f);
 
                     AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(SimonReverse.this);
-                    alertDialogBuilder.setMessage("GAME OVER!  your score was " + currentScore);
+                    String message = "<html>" +
+                            "<br><font color=#cc0029 size=><b>GAME OVER</b></font><br><br>" + "</html>";
                     alertDialogBuilder.setPositiveButton("Ok",
                             new DialogInterface.OnClickListener() {
                                 @Override
@@ -120,11 +120,9 @@ public class SimonReverse extends AppCompatActivity {
                                     startActivity(intent);
                                 }
                             });
-
+                    alertDialogBuilder.setMessage(Html.fromHtml(message + "your score was " + currentScore));
                     AlertDialog alertDialog = alertDialogBuilder.create();
                     alertDialog.show();
-                    alertDialog.getWindow().getDecorView().getBackground().setColorFilter(new LightingColorFilter(0x00000000, 0x00EAF2F8));
-
                     return true;
 
                 }
@@ -238,8 +236,8 @@ public class SimonReverse extends AppCompatActivity {
             String message = "<html>" +
                     "<h2>How to Play</h2>" +
                     "<p>The game will randomly pick one of the four buttons, light it up, and play a " +
-                    "sound. You must press the same button. Simon plays that button again, and then randomly" +
-                    " chooses another button. You must hit those  buttons in the reverse order. Simon " +
+                    "sound. You must press the same button.Simon plays that button again, and then randomly" +
+                    " chooses another button. You must hit those  buttons in the reverse order! Simon " +
                     "keeps adding buttons growing the pattern, and you must keep pressing all the buttons, " +
                     "until you hit a wrong button.</p>" +
                     "</html>";

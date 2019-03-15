@@ -2,15 +2,22 @@ package com.example.simon;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.graphics.LightingColorFilter;
 import android.media.MediaPlayer;
+//import android.support.v7.app.AlertDialog;
+import android.support.v7.app.AppCompatActivity;
+import android.text.Html;
 import android.view.View;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.animation.LinearInterpolator;
+import android.app.AlertDialog;
 
 import java.util.Random;
 
-public class Sound extends Activity {
+public class Sound extends AppCompatActivity {
     private int sound;
 
 
@@ -24,7 +31,7 @@ public class Sound extends Activity {
 
     // adds the sounds to the correct buttons that are being pressed
     public static void makeSound(Context context, int soundID) {
-        Sound sound = new Sound();
+        final Sound sound = new Sound();
         if (soundID == R.id.green_im) {
             sound.setSound(R.raw.greenbutton);
         } else if (soundID == R.id.red_ib) {
@@ -68,8 +75,6 @@ public class Sound extends Activity {
         return rand.nextInt(random) + 1; // generate a random number between 1 and 4
     }
 
-
 }
-
 
 
