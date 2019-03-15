@@ -241,7 +241,7 @@ public class SimonReverse extends AppCompatActivity {
                     "<h2>How to Play</h2>" +
                     "<p>The game will randomly pick one of the four buttons, light it up, and play a " +
                     "sound. You must press the same button. Simon plays that button again, and then randomly" +
-                    " chooses another button. You must hit those two buttons in the correct order. Simon " +
+                    " chooses another button. You must hit those  buttons in the reverse order. Simon " +
                     "keeps adding buttons growing the pattern, and you must keep pressing all the buttons, " +
                     "until you hit a wrong button.</p>" +
                     "</html>"; // need to fix html

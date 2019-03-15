@@ -37,18 +37,14 @@ public class SimonOriginal extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game1);
-        // add a colorful text to the title_text view with html
-        TextView title_tv = findViewById(R.id.title1_tv);
-        String text = "<font color=#cc0029>S</font><font color=#ffcc00>I</font>" +
-                "<font color=#00B2EE>M</font><font color=#00ff00>O</font>" +
-                "<font color=#ffcc00>N</font>" + "<font color=#cc0029> O</font><font color=#ffcc00>R</font>" +
-                "<font color=#00B2EE>I</font><font color=#00ff00>G</font>" +
-                "<font color=#ffcc00>I</font><font color=#cc0029>N</font>"+
-                "<font color=#cc0029>A</font><font color=#ffcc00>L</font>";
-        title_tv.setText(Html.fromHtml(text));
 
-        context = getApplicationContext();
+
+        // add a colorful text to the title_text view with html
+        TextView textView = findViewById(R.id.title1_tv);
+        setTextview(textView);
+
         // saves the high score
+        context = getApplicationContext();
         SharedPreferences prefs = this.getSharedPreferences("GET_HIGH_SCORE", Context.MODE_PRIVATE);
         highScore = prefs.getInt("HIGH_SCORE", 0);
 
@@ -111,7 +107,9 @@ public class SimonOriginal extends AppCompatActivity {
                     soundPool.play(loseSound, 1, 1, 1, 0, 1f);
 
                     AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(SimonOriginal.this);
-                    alertDialogBuilder.setMessage("GAME OVER!  your score was " + currentScore);
+                    String message = "<html>" +
+                            "<br><font color=#cc0029 size=><b>GAME OVER</b></font><br><br>" + "</html>";
+
                     alertDialogBuilder.setPositiveButton("Ok",
                             new DialogInterface.OnClickListener() {
                                 @Override
@@ -121,10 +119,12 @@ public class SimonOriginal extends AppCompatActivity {
                                 }
                             });
 
-                    AlertDialog alertDialog = alertDialogBuilder.create();
-                    alertDialog.show();
-                    alertDialog.getWindow().getDecorView().getBackground().setColorFilter(new LightingColorFilter(0x00000000, 0x00EAF2F8));
+                    alertDialogBuilder.setMessage(Html.fromHtml(message + "your score was " + currentScore));
+                    AlertDialog dialog = alertDialogBuilder.create();
+                    dialog.show();
 
+                    TextView tv = dialog.findViewById(android.R.id.message); // sets html in TV
+                    tv.setMovementMethod(LinkMovementMethod.getInstance());
 
                     return true;
                 }
@@ -173,6 +173,16 @@ public class SimonOriginal extends AppCompatActivity {
 
     }
 
+    public void addToArray() {  // add random number to the first free position in the array
+        for (int i = 0; i < CAPACITY; i++) {
+            if (moves[i] == 0) {
+                moves[i] = Sound.random(4);
+                break;
+            }
+
+        }
+    }
+
     public void simonClick(final int click_index) {
         final Runnable runnable = new Runnable() {
             public void run() {
@@ -196,14 +206,16 @@ public class SimonOriginal extends AppCompatActivity {
 
     }
 
-    private void addToArray() {  // add random number to the first free position in the array
-        for (int i = 0; i < CAPACITY; i++) {
-            if (moves[i] == 0) {
-                moves[i] = Sound.random(4);
-                break;
-            }
-
-        }
+    public void setTextview(TextView textview) {
+        // add a colorful text to the title_text view with html
+        TextView title_tv = findViewById(R.id.title1_tv);
+        String text = "<font color=#cc0029>S</font><font color=#ffcc00>I</font>" +
+                "<font color=#00B2EE>M</font><font color=#00ff00>O</font>" +
+                "<font color=#ffcc00>N</font>" + "<font color=#cc0029> O</font><font color=#ffcc00>R</font>" +
+                "<font color=#00B2EE>I</font><font color=#00ff00>G</font>" +
+                "<font color=#ffcc00>I</font><font color=#cc0029>N</font>" +
+                "<font color=#cc0029>A</font><font color=#ffcc00>L</font>";
+        title_tv.setText(Html.fromHtml(text));
     }
 
     class AboutListener implements View.OnClickListener {
