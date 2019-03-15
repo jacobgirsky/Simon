@@ -111,7 +111,9 @@ public class SimonPlus extends AppCompatActivity {
                     soundPool.play(loseSound, 1, 1, 1, 0, 1f);
 
                     AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(SimonPlus.this);
-                    alertDialogBuilder.setMessage("GAME OVER, your score was " + currentScore);
+                    String message = "<html>" +
+                            "<br><font color=#cc0029 size=><b>GAME OVER</b></font><br><br>" + "</html>";
+
                     alertDialogBuilder.setPositiveButton("Ok",
                             new DialogInterface.OnClickListener() {
                                 @Override
@@ -121,8 +123,15 @@ public class SimonPlus extends AppCompatActivity {
                                 }
                             });
 
-                    AlertDialog alertDialog = alertDialogBuilder.create();
-                    alertDialog.show();
+
+                    AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
+                    builder.setMessage(Html.fromHtml(message + "Your score was " + currentScore));
+
+                    AlertDialog dialog = builder.create();
+                    dialog.show();
+
+                    TextView tv = dialog.findViewById(android.R.id.message); // sets html in TV
+                    tv.setMovementMethod(LinkMovementMethod.getInstance());
 
                     return true;
                 }
