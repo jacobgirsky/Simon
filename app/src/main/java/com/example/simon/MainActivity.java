@@ -62,7 +62,7 @@ public class MainActivity extends AppCompatActivity implements SingleChoiceDialo
         public void onClick(View v) {
             String message = "<html>" +
                     "<br><font color=#cc0029><b>About the game</b></font><br><br>" +
-                    "<font color=#ffffff>Developers: </font><font color=#ffffff>Jacob Girsky </font><br><br>" +
+                    "<font color=#ffffff>Developer: </font><font color=#ffffff>Jacob Girsky </font><br><br>" +
                     "<font color=#ffffff>Sounds: </font><font color=#ffffff> All sounds came from freesound.org</font><br><br>" +
                     "<font color=#ffffff>Images: </font><font color=#ffffff> All images came from openclipart.org</font><br><br>" +
                     "<font color=#ffffff>Links: </font>"+
