@@ -31,6 +31,7 @@ public class SimonOriginal extends AppCompatActivity {
     int numItemsInArray = 0, numberOfClicksEachLevel = 0, loseSound;
     public SoundPool soundPool = new SoundPool(10, AudioManager.STREAM_MUSIC, 0);
     final Handler handler = new Handler();
+    Sound sound = new Sound();
 
 
     @Override
@@ -132,9 +133,8 @@ public class SimonOriginal extends AppCompatActivity {
                     return true;
                 }
                 //if the user gets its right
-
-                Sound.makeSound(context, v.getId());
-                Sound.lightUp(v);
+                sound.makeSound(context, v.getId());
+                sound.lightUp(v);
                 numberOfClicksEachLevel++;
                 final TextView tv = findViewById(R.id.current_score_tv);
                 TextView textView = findViewById(R.id.high_score_tv);
@@ -180,7 +180,7 @@ public class SimonOriginal extends AppCompatActivity {
     public void addToArray() {  // add random number to the first free position in the array
         for (int i = 0; i < CAPACITY; i++) {
             if (moves[i] == 0) {
-                moves[i] = Sound.random(4);
+                moves[i] = sound.random(4);
                 break;
             }
 
@@ -191,17 +191,17 @@ public class SimonOriginal extends AppCompatActivity {
         final Runnable runnable = new Runnable() {
             public void run() {
                 if (moves[click_index] == 1) {
-                    Sound.makeSound(context, R.id.green_im);
-                    Sound.lightUp(greenButton);
+                    sound.makeSound(context, R.id.green_im);
+                    sound.lightUp(greenButton);
                 } else if (moves[click_index] == 2) {
-                    Sound.makeSound(context, R.id.red_ib);
-                    Sound.lightUp(redButton);
+                    sound.makeSound(context, R.id.red_ib);
+                    sound.lightUp(redButton);
                 } else if (moves[click_index] == 3) {
-                    Sound.makeSound(context, R.id.yellow_ib);
-                    Sound.lightUp(yellowButton);
+                    sound.makeSound(context, R.id.yellow_ib);
+                    sound.lightUp(yellowButton);
                 } else if (moves[click_index] == 4) {
-                    Sound.makeSound(context, R.id.blue_ib);
-                    Sound.lightUp(blueButton);
+                    sound.makeSound(context, R.id.blue_ib);
+                    sound.lightUp(blueButton);
                 }
             }
         };

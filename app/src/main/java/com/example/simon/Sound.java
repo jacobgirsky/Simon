@@ -1,21 +1,16 @@
 package com.example.simon;
 
-import android.app.Activity;
 import android.content.Context;
-import android.content.DialogInterface;
-import android.content.Intent;
-import android.graphics.LightingColorFilter;
 import android.media.MediaPlayer;
-//import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.text.Html;
 import android.view.View;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.animation.LinearInterpolator;
-import android.app.AlertDialog;
 
 import java.util.Random;
+
+//import android.support.v7.app.AlertDialog;
 
 public class Sound extends AppCompatActivity {
     private int sound;
@@ -30,7 +25,7 @@ public class Sound extends AppCompatActivity {
     }
 
     // adds the sounds to the correct buttons that are being pressed
-    public static void makeSound(Context context, int soundID) {
+    public void makeSound(Context context, int soundID) {
         final Sound sound = new Sound();
         if (soundID == R.id.green_im) {
             sound.setSound(R.raw.greenbutton);
@@ -50,7 +45,6 @@ public class Sound extends AppCompatActivity {
 
     }
 
-
     public void startMediaPlayer(Context context, int audioRes) {
 
         MediaPlayer mediaPlayer = MediaPlayer.create(context, audioRes);
@@ -63,14 +57,14 @@ public class Sound extends AppCompatActivity {
         mediaPlayer.start();
     }
 
-    public static void lightUp(View v) {
+    public void lightUp(View v) {
         Animation mAnimation = new AlphaAnimation(1, 0);
         mAnimation.setDuration(300);
         mAnimation.setInterpolator(new LinearInterpolator());
         v.startAnimation(mAnimation);
     }
 
-    public static int random(int random) {
+    public int random(int random) {
         Random rand = new Random();
         return rand.nextInt(random) + 1; // generate a random number between 1 and 4
     }

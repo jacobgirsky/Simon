@@ -38,6 +38,7 @@ public class SimonReverse extends AppCompatActivity {
     Random rand = new Random();
     final Handler handler = new Handler();
     Boolean isSimonClick = false;
+    Sound sound = new Sound();
 
 
     @Override
@@ -127,8 +128,8 @@ public class SimonReverse extends AppCompatActivity {
 
                 }
                 //if the user gets its right
-                Sound.makeSound(context, v.getId());
-                Sound.lightUp(v);
+                sound.makeSound(context, v.getId());
+                sound.lightUp(v);
                 numberOfClicks++;
                 final TextView tv = findViewById(R.id.current_score_tv);
                 TextView textView = findViewById(R.id.high_score_tv);
@@ -188,7 +189,7 @@ public class SimonReverse extends AppCompatActivity {
 
     private void addToArray() {  // add random number to the first free position in the array
         for (int i = 0; i < CAPACITY; i++) {
-            simonPattern.add(Sound.random(4));
+            simonPattern.add(sound.random(4));
             break;
             // }
 
@@ -206,20 +207,20 @@ public class SimonReverse extends AppCompatActivity {
         final Runnable runnable = new Runnable() {
             public void run() {
                 if (simonPattern.get(click_index) == 1) {
-                    Sound.makeSound(context, R.id.green_im);
-                    Sound.lightUp(greenButton);
+                    sound.makeSound(context, R.id.green_im);
+                    sound.lightUp(greenButton);
                     isSimonClick = true;
                 } else if (simonPattern.get(click_index) == 2) {
-                    Sound.makeSound(context, R.id.red_ib);
-                    Sound.lightUp(redButton);
+                    sound.makeSound(context, R.id.red_ib);
+                    sound.lightUp(redButton);
                     isSimonClick = true;
                 } else if (simonPattern.get(click_index) == 3) {
-                    Sound.makeSound(context, R.id.yellow_ib);
-                    Sound.lightUp(yellowButton);
+                    sound.makeSound(context, R.id.yellow_ib);
+                    sound.lightUp(yellowButton);
                     isSimonClick = true;
                 } else {
-                    Sound.makeSound(context, R.id.blue_ib);
-                    Sound.lightUp(blueButton);
+                    sound.makeSound(context, R.id.blue_ib);
+                    sound.lightUp(blueButton);
                     isSimonClick = true;
                 }
 
