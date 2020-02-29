@@ -13,6 +13,7 @@ import java.util.Random;
 //import android.support.v7.app.AlertDialog;
 
 public class Sound extends AppCompatActivity {
+
     private int sound;
 
 

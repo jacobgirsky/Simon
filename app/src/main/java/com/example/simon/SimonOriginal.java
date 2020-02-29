@@ -73,7 +73,6 @@ public class SimonOriginal extends AppCompatActivity {
         yellowButton.setOnTouchListener(clicked);
         blueButton.setOnTouchListener(clicked);
 
-
         playGame();
 
     }
@@ -177,7 +176,8 @@ public class SimonOriginal extends AppCompatActivity {
 
     }
 
-    public void addToArray() {  // add random number to the first free position in the array
+    // add random number to the first free position in the array
+    public void addToArray() {
         for (int i = 0; i < CAPACITY; i++) {
             if (moves[i] == 0) {
                 moves[i] = sound.random(4);
