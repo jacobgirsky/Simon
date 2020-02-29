@@ -35,7 +35,6 @@ public class SimonReverse extends AppCompatActivity {
     int currentScore = 0, highScore;
     int numItemsInArray = 0, numberOfClicks = 0, loseSound;
     public SoundPool soundPool = new SoundPool(10, AudioManager.STREAM_MUSIC, 0);
-    Random rand = new Random();
     final Handler handler = new Handler();
     Boolean isSimonClick = false;
     Sound sound = new Sound();
@@ -177,10 +176,6 @@ public class SimonReverse extends AppCompatActivity {
             isSimonClick = false;
         }
 
-        //Vector<Integer> userPattern = new Vector<>(size);
-        //Collections.copy(userPattern, simonPattern);
-        //userPattern = (Vector)simonPattern.clone();
-
         for (int i = 0; i < simonPattern.size(); i++) {
             userPattern.add(simonPattern.get(i));
         }
@@ -191,7 +186,6 @@ public class SimonReverse extends AppCompatActivity {
         for (int i = 0; i < CAPACITY; i++) {
             simonPattern.add(sound.random(4));
             break;
-            // }
 
         }
     }
@@ -261,9 +255,6 @@ public class SimonReverse extends AppCompatActivity {
         super.onSaveInstanceState(outState);
 
         outState.putInt("highScore", highScore);
-    }
-
-    private class Bool {
     }
 }
 

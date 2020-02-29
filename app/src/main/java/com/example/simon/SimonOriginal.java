@@ -31,13 +31,15 @@ public class SimonOriginal extends AppCompatActivity {
     int numItemsInArray = 0, numberOfClicksEachLevel = 0, loseSound;
     public SoundPool soundPool = new SoundPool(10, AudioManager.STREAM_MUSIC, 0);
     final Handler handler = new Handler();
-    Sound sound = new Sound();
+    private Sound sound;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game1);
+
+        sound = new Sound();
 
 
         // add a colorful text to the title_text view with html
@@ -102,7 +104,6 @@ public class SimonOriginal extends AppCompatActivity {
                         x = 4;
                         break;
                 }
-
 
                 if (moves[numberOfClicksEachLevel] != x) { // If the user gets it wrong
                     soundPool.play(loseSound, 1, 1, 1, 0, 1f);
@@ -173,7 +174,6 @@ public class SimonOriginal extends AppCompatActivity {
         for (int i = 0; i < numItemsInArray; i++) {
             simonClick(i);
         }
-
     }
 
     // add random number to the first free position in the array
@@ -183,7 +183,6 @@ public class SimonOriginal extends AppCompatActivity {
                 moves[i] = sound.random(4);
                 break;
             }
-
         }
     }
 

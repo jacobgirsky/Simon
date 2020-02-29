@@ -46,7 +46,7 @@ public class Sound extends AppCompatActivity {
 
     }
 
-    public void startMediaPlayer(Context context, int audioRes) {
+    private void startMediaPlayer(Context context, int audioRes) {
 
         MediaPlayer mediaPlayer = MediaPlayer.create(context, audioRes);
         mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
