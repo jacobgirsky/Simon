@@ -32,12 +32,15 @@ public class SimonPlus extends AppCompatActivity {
     public SoundPool soundPool = new SoundPool(10, AudioManager.STREAM_MUSIC, 0);
     final Handler handler = new Handler();
     Sound sound = new Sound();
+    SimonOriginal simonOriginal;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game2);
+
+        simonOriginal = new SimonOriginal();
 
         context = getApplicationContext();
         // saves the high score
@@ -56,7 +59,18 @@ public class SimonPlus extends AppCompatActivity {
 
         loseSound = soundPool.load(this, R.raw.lose, 1);
 
-        findViewById(R.id.how_to_im).setOnClickListener(new AboutListener());
+        String message = "<html>" +
+                "<h2>How to Play</h2>" +
+                "<p>The game will randomly pick one of the eight  buttons, light it up, and play a " +
+                "sound. You must press the same button. Simon plays that button again, and then randomly" +
+                " chooses another button. You must hit those two buttons in the correct order. Simon " +
+                "keeps adding buttons growing the pattern, and you must keep pressing all the buttons, " +
+                "until you hit a wrong button.</p>" +
+                "</html>";
+
+        AboutListener aboutListener = new AboutListener(message);
+
+        findViewById(R.id.how_to_im).setOnClickListener(aboutListener);
 
         greenButton = findViewById(R.id.green_im);
         redButton = findViewById(R.id.red_ib);
@@ -150,7 +164,6 @@ public class SimonPlus extends AppCompatActivity {
         }
     };
 
-
     public void playGame() {
         addToArray();
         numItemsInArray++;
@@ -195,7 +208,6 @@ public class SimonPlus extends AppCompatActivity {
         };
 
         handler.postDelayed(runnable, (1300) * click_index);
-
     }
 
     private void getAlertDialog() {
@@ -218,31 +230,6 @@ public class SimonPlus extends AppCompatActivity {
 
         TextView tv = dialog.findViewById(android.R.id.message); // sets html in TV
         tv.setMovementMethod(LinkMovementMethod.getInstance());
-    }
-
-    class AboutListener implements View.OnClickListener {
-        @Override
-        public void onClick(View v) {
-            String message = "<html>" +
-                    "<h2>How to Play</h2>" +
-                    "<p>The game will randomly pick one of the six buttons, light it up, and play a " +
-                    "sound. You must press the same button. Simon plays that button again, and then randomly" +
-                    " chooses another button. You must hit those buttons in the correct order. Simon " +
-                    "keeps adding buttons growing the pattern, and you must keep pressing all the buttons, " +
-                    "until you hit a wrong button.</p>" +
-                    "</html>"; // need to fix html
-
-
-            AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
-            builder.setMessage(Html.fromHtml(message));
-            builder.setPositiveButton("OK", null);
-
-            AlertDialog dialog = builder.create();
-            dialog.show();
-
-            TextView tv = dialog.findViewById(android.R.id.message); // sets html in TV
-            tv.setMovementMethod(LinkMovementMethod.getInstance());
-        }
     }
 
 }
