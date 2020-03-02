@@ -25,7 +25,7 @@ public class SimonPlus extends AppCompatActivity {
     Context context;
     ImageButton greenButton, redButton, yellowButton, blueButton, tealButton, purpleButton;
     int x;
-    final int CAPACITY = 500;
+    final int CAPACITY = 50;
     int moves[] = new int[CAPACITY];
     int currentScore = 0, highScore;
     int numItemsInArray = 0, numberOfClicks = 0, loseSound;
@@ -72,7 +72,6 @@ public class SimonPlus extends AppCompatActivity {
         tealButton.setOnTouchListener(clicked);
         purpleButton.setOnTouchListener(clicked);
 
-
         playGame();
 
     }
@@ -112,25 +111,7 @@ public class SimonPlus extends AppCompatActivity {
                 if (moves[numberOfClicks] != x) { // If the user gets it wrong
                     soundPool.play(loseSound, 1, 1, 1, 0, 1f);
 
-                    AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(SimonPlus.this);
-                    String message = "<html>" +
-                            "<br><font color=#cc0029 size=><b>GAME OVER</b></font><br><br>" + "</html>";
-
-                    alertDialogBuilder.setPositiveButton("Ok",
-                            new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface arg0, int arg1) {
-                                    Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                                    startActivity(intent);
-                                }
-                            });
-
-                    alertDialogBuilder.setMessage(Html.fromHtml(message + "your score was " + currentScore));
-                    AlertDialog dialog = alertDialogBuilder.create();
-                    dialog.show();
-
-                    TextView tv = dialog.findViewById(android.R.id.message); // sets html in TV
-                    tv.setMovementMethod(LinkMovementMethod.getInstance());
+                    getAlertDialog();
 
                     return true;
                 }
@@ -165,10 +146,10 @@ public class SimonPlus extends AppCompatActivity {
                     handler.postDelayed(runnable, 1500);
                 }
             }
-
             return true;
         }
     };
+
 
     public void playGame() {
         addToArray();
@@ -176,16 +157,15 @@ public class SimonPlus extends AppCompatActivity {
         for (int i = 0; i < numItemsInArray; i++) {
             simonClick(i);
         }
-
     }
 
     private void addToArray() {  // add random number to the first free position in the array
         for (int i = 0; i < CAPACITY; i++) {
             if (moves[i] == 0) {
-                moves[i] = sound.random(6);
+                Random rand = new Random();
+                moves[i] = rand.nextInt(4) + 1;
                 break;
             }
-
         }
     }
 
@@ -216,6 +196,28 @@ public class SimonPlus extends AppCompatActivity {
 
         handler.postDelayed(runnable, (1300) * click_index);
 
+    }
+
+    private void getAlertDialog() {
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(SimonPlus.this);
+        String message = "<html>" +
+                "<br><font color=#cc0029 size=><b>GAME OVER</b></font><br><br>" + "</html>";
+
+        alertDialogBuilder.setPositiveButton("Ok",
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface arg0, int arg1) {
+                        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                        startActivity(intent);
+                    }
+                });
+
+        alertDialogBuilder.setMessage(Html.fromHtml(message + "your score was " + currentScore));
+        AlertDialog dialog = alertDialogBuilder.create();
+        dialog.show();
+
+        TextView tv = dialog.findViewById(android.R.id.message); // sets html in TV
+        tv.setMovementMethod(LinkMovementMethod.getInstance());
     }
 
     class AboutListener implements View.OnClickListener {

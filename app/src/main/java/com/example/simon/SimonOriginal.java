@@ -74,11 +74,15 @@ public class SimonOriginal extends AppCompatActivity {
         yellowButton.setOnTouchListener(clicked);
         blueButton.setOnTouchListener(clicked);
 
-        Button startButton = findViewById(R.id.start_button);
+        disableButtons();
+
+
+        final Button startButton = findViewById(R.id.start_button);
         startButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 playGame();
+                startButton.setEnabled(false);
             }
         });
     }
@@ -148,9 +152,7 @@ public class SimonOriginal extends AppCompatActivity {
                     };
                     handler.postDelayed(runnable, 1500);
                 }
-                enableButtons();
             }
-
             return true;
         }
     };
@@ -159,6 +161,7 @@ public class SimonOriginal extends AppCompatActivity {
     // loops through the array and calls simonClick. Passes the number of the button that
     // was pressed and need to light up
     public void playGame() {
+        enableButtons();
         addToArray();
         numItemsInArray++;
         for (int i = 0; i < numItemsInArray; i++) {
