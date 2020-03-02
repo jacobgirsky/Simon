@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.LightingColorFilter;
+import android.graphics.RadialGradient;
 import android.media.AudioManager;
 import android.media.SoundPool;
 import android.os.Handler;
@@ -25,16 +26,14 @@ import java.util.Random;
 public class SimonOriginal extends AppCompatActivity {
     Context context;
     ImageButton greenButton, redButton, yellowButton, blueButton;
-    int x;
-    final int CAPACITY = 500;
+    private int x;
+    final int CAPACITY = 50;
     int moves[] = new int[CAPACITY];
     int currentScore = 0, highScore;
     int numItemsInArray = 0, numberOfClicksEachLevel = 0, loseSound;
     public SoundPool soundPool = new SoundPool(10, AudioManager.STREAM_MUSIC, 0);
     final Handler handler = new Handler();
     private Sound sound;
-    private boolean hasWon;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,8 +41,6 @@ public class SimonOriginal extends AppCompatActivity {
         setContentView(R.layout.activity_game1);
 
         sound = new Sound();
-        hasWon = false;
-
 
         // add a colorful text to the title_text view with html
         TextView textView = findViewById(R.id.title1_tv);
@@ -62,7 +59,6 @@ public class SimonOriginal extends AppCompatActivity {
                 Log.i("HIGH SCORE", "High score: " + highScore);
             }
         });
-
 
         loseSound = soundPool.load(this, R.raw.lose, 1);
 
@@ -85,7 +81,6 @@ public class SimonOriginal extends AppCompatActivity {
                 playGame();
             }
         });
-
     }
 
     @Override
@@ -119,27 +114,7 @@ public class SimonOriginal extends AppCompatActivity {
 
                     // after they lose need to stop sounds and lighting
 
-
-                    AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(SimonOriginal.this);
-                    String message = "<html>" +
-                            "<br><font color=#cc0029 size=><b>GAME OVER</b></font><br><br>" + "</html>";
-
-                    alertDialogBuilder.setPositiveButton("Ok",
-                            new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface arg0, int arg1) {
-                                    Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                                    startActivity(intent);
-                                }
-                            });
-
-                    alertDialogBuilder.setMessage(Html.fromHtml(message + "your score was " + currentScore));
-                    AlertDialog dialog = alertDialogBuilder.create();
-                    dialog.show();
-
-                    TextView tv = dialog.findViewById(android.R.id.message); // sets html in TV
-                    tv.setMovementMethod(LinkMovementMethod.getInstance());
-
+                    setTextDialog();
 
                     return true;
                 }
@@ -173,12 +148,16 @@ public class SimonOriginal extends AppCompatActivity {
                     };
                     handler.postDelayed(runnable, 1500);
                 }
+                enableButtons();
             }
 
             return true;
         }
     };
 
+
+    // loops through the array and calls simonClick. Passes the number of the button that
+    // was pressed and need to light up
     public void playGame() {
         addToArray();
         numItemsInArray++;
@@ -191,12 +170,14 @@ public class SimonOriginal extends AppCompatActivity {
     public void addToArray() {
         for (int i = 0; i < CAPACITY; i++) {
             if (moves[i] == 0) {
-                moves[i] = sound.random(4);
+                Random rand = new Random();
+                moves[i] = rand.nextInt(4) + 1; // number 1 through 4
                 break;
             }
         }
     }
 
+    // Lights up and plays the sound of whatever button was selected
     public void simonClick(final int click_index) {
         final Runnable runnable = new Runnable() {
             public void run() {
@@ -220,10 +201,17 @@ public class SimonOriginal extends AppCompatActivity {
     }
 
     public void disableButtons() {
-        greenButton.setClickable(false);
-        redButton.setClickable(false);
-        blueButton.setClickable(false);
-        yellowButton.setClickable(false);
+        greenButton.setEnabled(false);
+        redButton.setEnabled(false);
+        blueButton.setEnabled(false);
+        yellowButton.setEnabled(false);
+    }
+
+    public void enableButtons() {
+        greenButton.setEnabled(true);
+        redButton.setEnabled(true);
+        blueButton.setEnabled(true);
+        yellowButton.setEnabled(true);
     }
 
     public void setTextview(TextView textview) {
@@ -233,6 +221,28 @@ public class SimonOriginal extends AppCompatActivity {
                 "<font color=#00B2EE>M</font><font color=#00ff00>O</font>" +
                 "<font color=#ffcc00>N</font>";
         title_tv.setText(Html.fromHtml(text));
+    }
+
+    private void setTextDialog() {
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(SimonOriginal.this);
+        String message = "<html>" +
+                "<br><font color=#cc0029 size=><b>GAME OVER</b></font><br><br>" + "</html>";
+
+        alertDialogBuilder.setPositiveButton("Ok",
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface arg0, int arg1) {
+                        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                        startActivity(intent);
+                    }
+                });
+
+        alertDialogBuilder.setMessage(Html.fromHtml(message + "your score was " + currentScore));
+        AlertDialog dialog = alertDialogBuilder.create();
+        dialog.show();
+
+        TextView tv = dialog.findViewById(android.R.id.message); // sets html in TV
+        tv.setMovementMethod(LinkMovementMethod.getInstance());
     }
 
     class AboutListener implements View.OnClickListener {
