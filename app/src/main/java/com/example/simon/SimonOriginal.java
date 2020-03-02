@@ -24,14 +24,14 @@ import android.widget.TextView;
 import java.util.Random;
 
 public class SimonOriginal extends AppCompatActivity {
-    Context context;
-    ImageButton greenButton, redButton, yellowButton, blueButton;
+    private Context context;
+    private ImageButton greenButton, redButton, yellowButton, blueButton;
     private int x;
     final int CAPACITY = 50;
-    int moves[] = new int[CAPACITY];
-    int currentScore = 0, highScore;
-    int numItemsInArray = 0, numberOfClicksEachLevel = 0, loseSound;
-    public SoundPool soundPool = new SoundPool(10, AudioManager.STREAM_MUSIC, 0);
+    private int moves[] = new int[CAPACITY];
+    private int currentScore = 0, highScore;
+    private int numItemsInArray = 0, numberOfClicksEachLevel = 0, loseSound;
+    private SoundPool soundPool = new SoundPool(10, AudioManager.STREAM_MUSIC, 0);
     final Handler handler = new Handler();
     private Sound sound;
 
