@@ -18,7 +18,19 @@ public class MainActivity extends AppCompatActivity implements SingleChoiceDialo
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        findViewById(R.id.about_button).setOnClickListener(new AboutListener());
+        String message = "<html>" +
+                "<br><font color=#cc0029><b>About the game</b></font><br><br>" +
+                "<font color=#ffffff>Developer: </font><font color=#ffffff>Jacob Girsky </font><br><br>" +
+                "<font color=#ffffff>Sounds: </font><font color=#ffffff> All sounds came from freesound.org</font><br><br>" +
+                "<font color=#ffffff>Images: </font><font color=#ffffff> All images came from openclipart.org</font><br><br>" +
+                "<font color=#ffffff>Links: </font>"+
+                " <a href=\"https://www.freesound.org/html/\">freesound.org</a>\"</font>" +
+                " <a href=\"https://www.openclipart.org/html/\">openclipart.org</a>\"</font><br><br>" + "</html>";
+
+        AboutListener aboutListener = new AboutListener(message);
+
+        findViewById(R.id.about_button).setOnClickListener(aboutListener);
+
         findViewById(R.id.play_button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -54,32 +66,6 @@ public class MainActivity extends AppCompatActivity implements SingleChoiceDialo
     @Override
     public void onNegativeButtonClicked() {
 
-    }
-
-    // adds functionality to the about button
-    class AboutListener implements View.OnClickListener {
-        @Override
-        public void onClick(View v) {
-            String message = "<html>" +
-                    "<br><font color=#cc0029><b>About the game</b></font><br><br>" +
-                    "<font color=#ffffff>Developer: </font><font color=#ffffff>Jacob Girsky </font><br><br>" +
-                    "<font color=#ffffff>Sounds: </font><font color=#ffffff> All sounds came from freesound.org</font><br><br>" +
-                    "<font color=#ffffff>Images: </font><font color=#ffffff> All images came from openclipart.org</font><br><br>" +
-                    "<font color=#ffffff>Links: </font>"+
-                    " <a href=\"https://www.freesound.org/html/\">freesound.org</a>\"</font>" +
-                    " <a href=\"https://www.openclipart.org/html/\">openclipart.org</a>\"</font><br><br>" + "</html>";
-
-
-            AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
-            builder.setMessage(Html.fromHtml(message));
-            builder.setPositiveButton("OK" , null);
-
-            AlertDialog dialog = builder.create();
-            dialog.show();
-
-            TextView tv = dialog.findViewById(android.R.id.message); // sets html in TV
-            tv.setMovementMethod(LinkMovementMethod.getInstance());
-        }
     }
 
 }

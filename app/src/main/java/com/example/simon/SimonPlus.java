@@ -16,7 +16,9 @@ import android.text.method.LinkMovementMethod;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.SimpleExpandableListAdapter;
 import android.widget.TextView;
 
 import java.util.Random;
@@ -59,6 +61,10 @@ public class SimonPlus extends AppCompatActivity {
 
         loseSound = soundPool.load(this, R.raw.lose, 1);
 
+        // add a colorful text to the title_text view with html
+        TextView textView = findViewById(R.id.title1_tv2);
+        setTextview(textView);
+
         String message = "<html>" +
                 "<h2>How to Play</h2>" +
                 "<p>The game will randomly pick one of the eight  buttons, light it up, and play a " +
@@ -86,8 +92,16 @@ public class SimonPlus extends AppCompatActivity {
         tealButton.setOnTouchListener(clicked);
         purpleButton.setOnTouchListener(clicked);
 
-        playGame();
+        disableButtons();
 
+        final Button startButton = findViewById(R.id.start_button);
+        startButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                playGame();
+                startButton.setEnabled(false);
+            }
+        });
     }
 
     @Override
@@ -164,7 +178,27 @@ public class SimonPlus extends AppCompatActivity {
         }
     };
 
+    public void disableButtons() {
+        greenButton.setEnabled(false);
+        redButton.setEnabled(false);
+        blueButton.setEnabled(false);
+        yellowButton.setEnabled(false);
+        tealButton.setEnabled(false);
+        purpleButton.setEnabled(false);
+    }
+
+    public void enableButtons() {
+        greenButton.setEnabled(true);
+        redButton.setEnabled(true);
+        blueButton.setEnabled(true);
+        yellowButton.setEnabled(true);
+        tealButton.setEnabled(true);
+        purpleButton.setEnabled(true);
+    }
+
+
     public void playGame() {
+        enableButtons();
         addToArray();
         numItemsInArray++;
         for (int i = 0; i < numItemsInArray; i++) {
@@ -210,6 +244,16 @@ public class SimonPlus extends AppCompatActivity {
         handler.postDelayed(runnable, (1300) * click_index);
     }
 
+    public void setTextview(TextView textview) {
+        // add a colorful text to the title_text view with html
+        TextView title_tv2 = findViewById(R.id.title1_tv2);
+        String text = "<font color=#cc0029>S</font><font color=#ffcc00>I</font>" +
+                "<font color=#00B2EE>M</font><font color=#00ff00>O</font>" +
+                "<font color=#ffcc00>N</font> <font color=#cc0029>P</font><font color=#ffcc00>L</font>" +
+        "<font color=#00B2EE>U</font><font color=#00ff00>S</font>";
+        title_tv2.setText(Html.fromHtml(text));
+    }
+
     private void getAlertDialog() {
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(SimonPlus.this);
         String message = "<html>" +
@@ -224,7 +268,7 @@ public class SimonPlus extends AppCompatActivity {
                     }
                 });
 
-        alertDialogBuilder.setMessage(Html.fromHtml(message + "your score was " + currentScore));
+        alertDialogBuilder.setMessage(Html.fromHtml(message + "Your score was " + currentScore));
         AlertDialog dialog = alertDialogBuilder.create();
         dialog.show();
 

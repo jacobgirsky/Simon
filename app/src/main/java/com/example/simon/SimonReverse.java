@@ -29,7 +29,7 @@ public class SimonReverse extends AppCompatActivity {
     ImageButton greenButton, redButton, yellowButton, blueButton;
     int[] button_ids = new int[]{R.id.blue_ib, R.id.red_ib, R.id.green_im, R.id.yellow_ib};
     int x;
-    final int CAPACITY = 500;
+    final int CAPACITY = 50;
     Vector<Integer> simonPattern = new Vector<>();
     Vector<Integer> userPattern = new Vector<>();
     int currentScore = 0, highScore;
@@ -119,21 +119,7 @@ public class SimonReverse extends AppCompatActivity {
                 if (userPattern.get(numberOfClicks) != x) {
                     soundPool.play(loseSound, 1, 1, 1, 0, 1f);
 
-                    AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(SimonReverse.this);
-                    String message = "<html>" +
-                            "<br><font color=#cc0029 size=><b>GAME OVER</b></font><br><br>" + "</html>";
-                    alertDialogBuilder.setPositiveButton("Ok",
-                            new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface arg0, int arg1) {
-                                    finish();
-                                    Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                                    startActivity(intent);
-                                }
-                            });
-                    alertDialogBuilder.setMessage(Html.fromHtml(message + "your score was " + currentScore));
-                    AlertDialog alertDialog = alertDialogBuilder.create();
-                    alertDialog.show();
+                    SetAlertDialog();
                     return true;
 
                 }
@@ -171,6 +157,7 @@ public class SimonReverse extends AppCompatActivity {
             return true;
         }
     };
+
 
     public void playGame() {
         addToArray();
@@ -234,6 +221,24 @@ public class SimonReverse extends AppCompatActivity {
 
         handler.postDelayed(runnable, (1500) * click_index);
 
+    }
+
+    private void SetAlertDialog() {
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(SimonReverse.this);
+        String message = "<html>" +
+                "<br><font color=#cc0029 size=><b>GAME OVER</b></font><br><br>" + "</html>";
+        alertDialogBuilder.setPositiveButton("Ok",
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface arg0, int arg1) {
+                        finish();
+                        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                        startActivity(intent);
+                    }
+                });
+        alertDialogBuilder.setMessage(Html.fromHtml(message + "Your score was " + currentScore));
+        AlertDialog alertDialog = alertDialogBuilder.create();
+        alertDialog.show();
     }
 
     @Override

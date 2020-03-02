@@ -251,7 +251,7 @@ public class SimonOriginal extends AppCompatActivity {
                     }
                 });
 
-        alertDialogBuilder.setMessage(Html.fromHtml(message + "your score was " + currentScore));
+        alertDialogBuilder.setMessage(Html.fromHtml(message + "Your score was " + currentScore));
         AlertDialog dialog = alertDialogBuilder.create();
         dialog.show();
 
