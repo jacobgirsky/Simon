@@ -182,17 +182,15 @@ public class SimonReverse extends AppCompatActivity {
 
     private void addToArray() {  // add random number to the first free position in the array
         for (int i = 0; i < CAPACITY; i++) {
-            simonPattern.add(sound.random(4));
+            Random rand = new Random();
+            simonPattern.add(rand.nextInt(4) + 1);
             break;
-
         }
     }
 
     // this method reverse the userPattern vector:
     private void reversePattern() {
-
         Collections.reverse(userPattern);
-
     }
 
     public void simonClick(final int click_index) {

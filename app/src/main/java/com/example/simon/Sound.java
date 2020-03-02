@@ -65,11 +65,6 @@ public class Sound extends AppCompatActivity {
         v.startAnimation(mAnimation);
     }
 
-    public int random(int random) {
-        Random rand = new Random();
-        return rand.nextInt(random) + 1; // generate a random number between 1 and 4
-    }
-
 }
 
 
