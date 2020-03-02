@@ -16,6 +16,7 @@ import android.text.method.LinkMovementMethod;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
@@ -32,6 +33,7 @@ public class SimonOriginal extends AppCompatActivity {
     public SoundPool soundPool = new SoundPool(10, AudioManager.STREAM_MUSIC, 0);
     final Handler handler = new Handler();
     private Sound sound;
+    private boolean hasWon;
 
 
     @Override
@@ -40,6 +42,7 @@ public class SimonOriginal extends AppCompatActivity {
         setContentView(R.layout.activity_game1);
 
         sound = new Sound();
+        hasWon = false;
 
 
         // add a colorful text to the title_text view with html
@@ -75,7 +78,13 @@ public class SimonOriginal extends AppCompatActivity {
         yellowButton.setOnTouchListener(clicked);
         blueButton.setOnTouchListener(clicked);
 
-        playGame();
+        Button startButton = findViewById(R.id.start_button);
+        startButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                playGame();
+            }
+        });
 
     }
 
@@ -108,8 +117,7 @@ public class SimonOriginal extends AppCompatActivity {
                 if (moves[numberOfClicksEachLevel] != x) { // If the user gets it wrong
                     soundPool.play(loseSound, 1, 1, 1, 0, 1f);
 
-                    // after they lose need to stop sounds and lighting up
-
+                    // after they lose need to stop sounds and lighting
 
 
                     AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(SimonOriginal.this);
@@ -209,7 +217,13 @@ public class SimonOriginal extends AppCompatActivity {
         };
 
         handler.postDelayed(runnable, (1300) * click_index);
+    }
 
+    public void disableButtons() {
+        greenButton.setClickable(false);
+        redButton.setClickable(false);
+        blueButton.setClickable(false);
+        yellowButton.setClickable(false);
     }
 
     public void setTextview(TextView textview) {
